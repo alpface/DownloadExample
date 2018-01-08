@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, BBSettingsCellDisclosureType) {
 
 @end
 
-@interface BBMapContinentTableViewCellModel : BBMapDownloadBaseItem
+@interface BBMapDownloadNodeTableViewCellModel : BBMapDownloadBaseItem
 
 @end
 

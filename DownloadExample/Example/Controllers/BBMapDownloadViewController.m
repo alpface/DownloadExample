@@ -12,6 +12,7 @@
 #import "BBAllMapViewController.h"
 #import "BBMapDownloadNavigationView.h"
 #import "BBMapDownloadConst.h"
+#import "NewDownloadModule.h"
 
 @interface BBMapDownloadViewController () <BBPageScrollViewDataSource, BBPageScrollViewDelegate>
 

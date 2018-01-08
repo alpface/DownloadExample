@@ -235,7 +235,6 @@
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"BBMapDownloadBaseViewController"];
         [tableView registerClass:[BBMapDownloadSectionHeaderView class] forHeaderFooterViewReuseIdentifier:BBMapDownloadSectionHeaderViewDefaultIdentifier];
     }
     return _tableView;

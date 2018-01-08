@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mapList version="1">
+	<continent title="Europe map">
+		<country title="England" icon="maplist_England.png">
+			<map id="1"><title>英国</title><packageName>com.erlinyou.uk.chinese</packageName><fileInitSize>500</fileInitSize></map>
+			<map id="2"><title>London</title><packageName>com.erlinyou.lon.chinese</packageName><fileInitSize>202</fileInitSize></map>
+			<map id="3"><title>利物浦</title><packageName>com.erlinyou.liv.chinese</packageName><fileInitSize>132</fileInitSize></map>
+		</country>
+		<country title="France" icon="maplist_France.png">
+			<map id="4"><title>France Country</title><packageName>com.erlinyou.fra.chinese</packageName><fileInitSize>1200</fileInitSize></map>
+			<map id="5"><title>Ile de France</title><packageName>com.erlinyou.ile.chinese</packageName><fileInitSize>258</fileInitSize></map>
+			<map id="6"><title>Alsace</title><packageName>com.erlinyou.als.chinese</packageName><fileInitSize>89</fileInitSize></map>
+		</country>
+		<country title="German" icon="maplist_German.png">
+			<map id="7"><title>德国</title><packageName>com.erlinyou.de.chinese</packageName><fileInitSize>1500</fileInitSize></map>
+			<map id="8"><title>柏林</title><packageName>com.erlinyou.ber.chinese</packageName><fileInitSize>156</fileInitSize></map>
+		</country>
+		<country title="Italy" icon="maplist_Italy.png">
+			<map id="9"><title>意大利</title><packageName>com.erlinyou.ita.chinese</packageName><fileInitSize>1800</fileInitSize></map>
+		</country>
+	</continent>
+	<continent title="North America map">
+		<country title="USA" icon="maplist_USA.png">
+			<map id="10"><title>美国</title><packageName>com.erlinyou.us.chinese</packageName><fileInitSize>3000</fileInitSize></map>
+			<map id="11"><title>洛杉矶</title><packageName>com.erlinyou.los.chinese</packageName><fileInitSize>251</fileInitSize></map>
+		</country>
+		<country title="Canada" icon="maplist_Canada.png">
+			<map id="12"><title>Canada country</title><packageName>com.erlinyou.can.chinese</packageName><fileInitSize>1200</fileInitSize></map>
+		</country>
+	</continent>
+</mapList>
+

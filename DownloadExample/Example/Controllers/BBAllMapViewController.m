@@ -7,11 +7,12 @@
 //
 
 #import "BBAllMapViewController.h"
-#import "BBMapContinentTableViewCell.h"
+#import "BBMapDownloadNodeTableViewCell.h"
 #import "BBMapDownloadTableViewCell.h"
 #import "BBMapDownloadNodeViewController.h"
 #import "BBMapDownloadConst.h"
 #import "BBMapDownloadHotCityTableViewCell.h"
+#import "NewDownloadModule.h"
 #import "BBMapDownloadSettingTableViewCell.h"
 #import "BBMapDownloadSearchView.h"
 
@@ -26,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[BBMapContinentTableViewCell class] forCellReuseIdentifier:BBMapContinentTableViewCell.defaultIdentifier];
+    [self.tableView registerClass:[BBMapDownloadNodeTableViewCell class] forCellReuseIdentifier:BBMapDownloadNodeTableViewCell.defaultIdentifier];
     [self.tableView registerClass:[BBMapDownloadTableViewCell class] forCellReuseIdentifier:BBMapDownloadTableViewCell.defaultIdentifier];
     [self.tableView registerClass:[BBMapDownloadHotCityTableViewCell class] forCellReuseIdentifier:BBMapDownloadHotCityTableViewCell.defaultIdentifier];
     [self.tableView registerClass:[BBMapDownloadSettingTableViewCell class] forCellReuseIdentifier:BBMapDownloadSettingTableViewCell.defaultIdentifier];
@@ -54,7 +55,7 @@
 - (BBTableViewSection *)mapDescriptionSection {
     NSMutableArray<BBSettingsCellModel *> *items = @[].mutableCopy;
     NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:@"导航地图、旅游地图说明" attributes:@{NSFontAttributeName: BBMapDownloadFontWithSize(BBMapDownloadMiddleFontSize)}];
-    BBSettingsCellModel *model = [BBSettingsCellModel cellForSel:@selector(clickMapDescription) target:self attributedTitle:attributedTitle disclosureAttributedText:nil icon:nil disclosureType:BBSettingsCellDisclosureTypeNext height:34.0];
+    BBSettingsCellModel *model = [BBSettingsCellModel cellForSel:@selector(clickMapDescription:) target:self attributedTitle:attributedTitle disclosureAttributedText:nil icon:nil disclosureType:BBSettingsCellDisclosureTypeNext height:34.0];
     [items addObject:model];
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:nil footerTitle:nil];
     return section;
@@ -129,11 +130,12 @@
 
 /// 全部地图
 - (BBTableViewSection *)allMapsSection {
-    NSMutableArray<BBMapContinentTableViewCellModel *> *items = @[].mutableCopy;
-    for (NSInteger i = 0; i < 5; i++) {
-        BBMapContinentTableViewCellModel *model = [[BBMapContinentTableViewCellModel alloc] initWithHeight:BBMapDownloadContinentCellHeight];
-        model.model = @(i).stringValue;
-        model.cellClass = [BBMapContinentTableViewCell class];
+    NSMutableArray *dataSource = [[NewDownloadModule getInstance] dataArray];
+    NSMutableArray<BBMapDownloadNodeTableViewCellModel *> *items = @[].mutableCopy;
+    for (DownloadNode *node in dataSource) {
+        BBMapDownloadNodeTableViewCellModel *model = [[BBMapDownloadNodeTableViewCellModel alloc] initWithHeight:BBMapDownloadContinentCellHeight];
+        model.model = node;
+        model.cellClass = [BBMapDownloadNodeTableViewCell class];
         [items addObject:model];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"全部地图"] footerTitle:nil];
@@ -176,7 +178,7 @@
     
     BBTableViewSection *section = self.sectionItems[indexPath.section];
     BBMapDownloadBaseItem *item = section.items[indexPath.row];
-    if (item.cellClass == [BBMapContinentTableViewCell class]) {
+    if (item.cellClass == [BBMapDownloadNodeTableViewCell class]) {
         [self showDownloadNodePageWithNode:item.model];
     }
     else if (item.class == [BBMapDownloadTableViewCell class]) {
@@ -192,8 +194,8 @@
 #pragma mark - Actions
 ////////////////////////////////////////////////////////////////////////
 
-/// 查看洲详情页
-- (void)showDownloadNodePageWithNode:(id)node {
+/// 查看子节点
+- (void)showDownloadNodePageWithNode:(DownloadNode *)node {
     BBMapDownloadNodeViewController *vc = [[BBMapDownloadNodeViewController alloc] initWithNode:node];
     [[UIViewController xy_getCurrentUIVC].navigationController pushViewController:vc animated:YES];
 }
@@ -209,7 +211,7 @@
 }
 
 /// 查看导航、旅游说明
-- (void)clickMapDescription {
+- (void)clickMapDescription:(id)sender {
     
 }
 

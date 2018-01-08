@@ -1,5 +1,5 @@
 //
-//  BBMapContinentTableViewCell.h
+//  BBMapDownloadNodeTableViewCell.h
 //  Boobuz
 //
 //  Created by xiaoyuan on 2018/1/3.
@@ -8,7 +8,7 @@
 
 #import "BBBaseTableViewCell.h"
 
-@interface BBMapContinentTableViewCell : UITableViewCell <BBBaseTableViewCell>
+@interface BBMapDownloadNodeTableViewCell : UITableViewCell <BBBaseTableViewCell>
 
 
 @end

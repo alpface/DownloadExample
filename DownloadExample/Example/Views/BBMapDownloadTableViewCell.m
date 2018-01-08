@@ -9,6 +9,8 @@
 #import "BBMapDownloadTableViewCell.h"
 #import "BBMapDownloadConst.h"
 #import "BBMapDownloadBaseItem.h"
+#import "Download_level2_Model.h"
+#import "DownloadNode.h"
 
 @interface BBMapDownloadTableViewCell ()
 
@@ -23,6 +25,7 @@
 @property (nonatomic, strong) UILabel *totalStateLabel;
 
 @property (nonatomic, strong) BBMapDownloadBaseItem *cellModel;
+@property (nonatomic, strong) MapModel *mapModel;
 
 @end
 
@@ -72,6 +75,31 @@
 - (void)setCellModel:(BBMapDownloadBaseItem *)cellModel {
     _cellModel = cellModel;
     
+    if ([cellModel.model isKindOfClass:[MapModel class]]) {
+        self.mapModel = cellModel.model;
+    }
+    else if ([cellModel.model isKindOfClass:[DownloadNode class]]) {
+        DownloadNode *node = (DownloadNode *)cellModel.model;
+        Download_level2_Model *m = node.nodeData;
+        if ([m isKindOfClass:[Download_level2_Model class]]) {
+            self.mapModel = m.model;
+        }
+    }
+    
+}
+
+- (void)setMapModel:(MapModel *)mapModel {
+    _mapModel = mapModel;
+    if ([mapModel.countryName isEqualToString:mapModel.titleStr]) {
+        self.titleLabel.text = [NSString stringWithFormat:@"%@", mapModel.countryName];
+    }
+    else{
+        self.titleLabel.text = [NSString stringWithFormat:@"%@(%@)", mapModel.titleStr, mapModel.countryName];
+    }
+    
+    self.descLabel.text = _mapModel.cityDescriptionStr;
+    self.iconView.image = [UIImage imageNamed:_mapModel.imageStr];
+
 }
 
 - (void)makeConstraint {

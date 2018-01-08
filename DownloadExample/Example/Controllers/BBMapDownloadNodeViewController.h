@@ -8,8 +8,10 @@
 
 #import "BBMapDownloadBaseViewController.h"
 
+@class DownloadNode;
+
 @interface BBMapDownloadNodeViewController : BBMapDownloadBaseViewController
 
-- (instancetype)initWithNode:(id)node;
+- (instancetype)initWithNode:(DownloadNode *)node;
 
 @end

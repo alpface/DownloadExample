@@ -21,7 +21,7 @@
 
 @end
 
-@implementation BBMapContinentTableViewCellModel
+@implementation BBMapDownloadNodeTableViewCellModel
 
 @end
 
