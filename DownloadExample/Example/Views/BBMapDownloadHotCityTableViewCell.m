@@ -9,6 +9,7 @@
 #import "BBMapDownloadHotCityTableViewCell.h"
 #import "BBMapDownloadConst.h"
 #import "BBMapDownloadBaseItem.h"
+#import "MapModel.h"
 
 @interface BBMapDownloadHotCityTableViewCell ()
 

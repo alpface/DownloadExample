@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D09EE5322003688100E0C3C4 /* BBMapDownloadNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09EE5302003688000E0C3C4 /* BBMapDownloadNodeViewController.m */; };
+		D09EE5352003691400E0C3C4 /* BBMapDownloadSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = D09EE5332003691300E0C3C4 /* BBMapDownloadSearchView.m */; };
 		D2B23DD120006EE600329C6C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DD020006EE600329C6C /* AppDelegate.m */; };
 		D2B23DD920006EE600329C6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2B23DD820006EE600329C6C /* Assets.xcassets */; };
 		D2B23DDC20006EE600329C6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2B23DDA20006EE600329C6C /* LaunchScreen.storyboard */; };
@@ -15,7 +17,6 @@
 		D2B23E0D200072D500329C6C /* BBTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DEC200072D500329C6C /* BBTableViewSection.m */; };
 		D2B23E0E200072D500329C6C /* BBAllMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DEF200072D500329C6C /* BBAllMapViewController.m */; };
 		D2B23E0F200072D500329C6C /* BBDownloadManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DF1200072D500329C6C /* BBDownloadManagementViewController.m */; };
-		D2B23E10200072D500329C6C /* BBMapContinentDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DF3200072D500329C6C /* BBMapContinentDetailViewController.m */; };
 		D2B23E11200072D500329C6C /* BBMapDownloadBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DF5200072D500329C6C /* BBMapDownloadBaseViewController.m */; };
 		D2B23E12200072D500329C6C /* BBMapDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DF7200072D500329C6C /* BBMapDownloadViewController.m */; };
 		D2B23E13200072D500329C6C /* BBMapContinentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DFB200072D500329C6C /* BBMapContinentTableViewCell.m */; };
@@ -36,6 +37,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D09EE5302003688000E0C3C4 /* BBMapDownloadNodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapDownloadNodeViewController.m; sourceTree = "<group>"; };
+		D09EE5312003688100E0C3C4 /* BBMapDownloadNodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapDownloadNodeViewController.h; sourceTree = "<group>"; };
+		D09EE5332003691300E0C3C4 /* BBMapDownloadSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapDownloadSearchView.m; sourceTree = "<group>"; };
+		D09EE5342003691300E0C3C4 /* BBMapDownloadSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapDownloadSearchView.h; sourceTree = "<group>"; };
 		D2B23DCC20006EE600329C6C /* DownloadExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DownloadExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2B23DCF20006EE600329C6C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D2B23DD020006EE600329C6C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -52,8 +57,6 @@
 		D2B23DEF200072D500329C6C /* BBAllMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAllMapViewController.m; sourceTree = "<group>"; };
 		D2B23DF0200072D500329C6C /* BBDownloadManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDownloadManagementViewController.h; sourceTree = "<group>"; };
 		D2B23DF1200072D500329C6C /* BBDownloadManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDownloadManagementViewController.m; sourceTree = "<group>"; };
-		D2B23DF2200072D500329C6C /* BBMapContinentDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapContinentDetailViewController.h; sourceTree = "<group>"; };
-		D2B23DF3200072D500329C6C /* BBMapContinentDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapContinentDetailViewController.m; sourceTree = "<group>"; };
 		D2B23DF4200072D500329C6C /* BBMapDownloadBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapDownloadBaseViewController.h; sourceTree = "<group>"; };
 		D2B23DF5200072D500329C6C /* BBMapDownloadBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapDownloadBaseViewController.m; sourceTree = "<group>"; };
 		D2B23DF6200072D500329C6C /* BBMapDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapDownloadViewController.h; sourceTree = "<group>"; };
@@ -170,12 +173,12 @@
 		D2B23DED200072D500329C6C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D09EE5312003688100E0C3C4 /* BBMapDownloadNodeViewController.h */,
+				D09EE5302003688000E0C3C4 /* BBMapDownloadNodeViewController.m */,
 				D2B23DEE200072D500329C6C /* BBAllMapViewController.h */,
 				D2B23DEF200072D500329C6C /* BBAllMapViewController.m */,
 				D2B23DF0200072D500329C6C /* BBDownloadManagementViewController.h */,
 				D2B23DF1200072D500329C6C /* BBDownloadManagementViewController.m */,
-				D2B23DF2200072D500329C6C /* BBMapContinentDetailViewController.h */,
-				D2B23DF3200072D500329C6C /* BBMapContinentDetailViewController.m */,
 				D2B23DF4200072D500329C6C /* BBMapDownloadBaseViewController.h */,
 				D2B23DF5200072D500329C6C /* BBMapDownloadBaseViewController.m */,
 				D2B23DF6200072D500329C6C /* BBMapDownloadViewController.h */,
@@ -187,6 +190,8 @@
 		D2B23DF8200072D500329C6C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D09EE5342003691300E0C3C4 /* BBMapDownloadSearchView.h */,
+				D09EE5332003691300E0C3C4 /* BBMapDownloadSearchView.m */,
 				D2B23DF9200072D500329C6C /* BBBaseTableViewCell.h */,
 				D2B23DFA200072D500329C6C /* BBMapContinentTableViewCell.h */,
 				D2B23DFB200072D500329C6C /* BBMapContinentTableViewCell.m */,
@@ -305,13 +310,14 @@
 				D2B23E19200072D500329C6C /* BBMapDownloadSettingTableViewCell.m in Sources */,
 				D2B23E0D200072D500329C6C /* BBTableViewSection.m in Sources */,
 				D2B23DDF20006EE600329C6C /* main.m in Sources */,
+				D09EE5352003691400E0C3C4 /* BBMapDownloadSearchView.m in Sources */,
 				D2B23E1A200072D500329C6C /* BBMapDownloadTableViewCell.m in Sources */,
 				D2B23E2B200076E900329C6C /* MapModel.m in Sources */,
 				D2B23E0C200072D500329C6C /* BBMapDownloadBaseItem.m in Sources */,
-				D2B23E10200072D500329C6C /* BBMapContinentDetailViewController.m in Sources */,
 				D2B23DD120006EE600329C6C /* AppDelegate.m in Sources */,
 				D2B23E11200072D500329C6C /* BBMapDownloadBaseViewController.m in Sources */,
 				D2B23E0E200072D500329C6C /* BBAllMapViewController.m in Sources */,
+				D09EE5322003688100E0C3C4 /* BBMapDownloadNodeViewController.m in Sources */,
 				D2B23E18200072D500329C6C /* BBMapDownloadSectionHeaderView.m in Sources */,
 				D2B23E12200072D500329C6C /* BBMapDownloadViewController.m in Sources */,
 				D2B23E1B200072D500329C6C /* BBPageScrollView.m in Sources */,

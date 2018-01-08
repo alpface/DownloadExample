@@ -57,8 +57,9 @@
 - (void)setCellModel:(BBMapDownloadBaseItem *)cellModel {
     _cellModel = cellModel;
     
-    self.continentNameLabel.text = @"亚洲";
+    self.continentNameLabel.text = cellModel.model;
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

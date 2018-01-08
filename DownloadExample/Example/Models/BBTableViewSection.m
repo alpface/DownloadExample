@@ -10,7 +10,9 @@
 
 @implementation BBTableViewSection
 
-- (instancetype)initWithItems:(NSArray<BBMapDownloadBaseItem *> *)items headerTitle:(NSAttributedString *)headerTitle footerTitle:(NSAttributedString *)footerTitle {
+- (instancetype)initWithItems:(NSArray<BBMapDownloadBaseItem *> *)items
+                  headerTitle:(NSAttributedString *)headerTitle
+                  footerTitle:(NSAttributedString *)footerTitle {
     if (self = [super init]) {
         if (!items.count) {
             return nil;

@@ -110,7 +110,7 @@
 /// WiFi下自动下载
 - (BBTableViewSection *)settingSection {
     NSMutableArray *items = @[].mutableCopy;
-    BBSettingsCellModel *item = [BBSettingsCellModel switchCellForSel:@selector(applyWifiAutoSwitch:) target:self title:@"WIFI下自动更新" iconName:nil on:YES height:40.0];
+    BBSettingsCellModel *item = [BBSettingsCellModel switchCellForSel:@selector(applyWifiAutoSwitch:) target:self attributedTitle:[[NSAttributedString alloc] initWithString:@"WIFI下自动更新"] icon:nil on:YES height:40.0];
     item.cellClass = [BBMapDownloadSettingTableViewCell class];
     [items addObject:item];
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:nil footerTitle:nil];

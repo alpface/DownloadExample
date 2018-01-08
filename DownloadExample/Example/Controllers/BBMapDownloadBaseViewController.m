@@ -101,6 +101,9 @@
 }
 
 - (BOOL)appendSection:(BBTableViewSection *)section {
+    if (!section) {
+        return NO;
+    }
     NSParameterAssert([section isKindOfClass:[BBTableViewSection class]]);
     if (!section) {
         return NO;

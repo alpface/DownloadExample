@@ -7,11 +7,11 @@
 //
 
 #import "BaseCellModel.h"
-#import "MapModel.h"
 
 typedef NS_ENUM(NSInteger, BBSettingsCellDisclosureType) {
     BBSettingsCellDisclosureTypeNormal,
     BBSettingsCellDisclosureTypeSwitch,
+    BBSettingsCellDisclosureTypeNext,
 };
 
 @interface BBMapDownloadBaseItem : BaseCellModel
@@ -39,13 +39,11 @@ typedef NS_ENUM(NSInteger, BBSettingsCellDisclosureType) {
 
 @property (nonatomic, assign, readonly) BBSettingsCellDisclosureType disclosureType;
 
-@property (nonatomic, copy, readonly) NSString *title;
+@property (nonatomic, copy, readonly) NSAttributedString *attributedTitle;
 
-@property (nonatomic, copy, readonly) NSString *iconName;
+@property (nonatomic, copy, readonly) UIImage *icon;
 
-@property (nonatomic, copy, readonly) UIColor *iconColor;
-
-@property (nonatomic, copy, readonly) NSString *disclosureText;
+@property (nonatomic, copy, readonly) NSAttributedString *disclosureAttributedText;
 
 @property (nonatomic, assign, readwrite) BOOL isSwitchOn;
 
@@ -54,22 +52,23 @@ typedef NS_ENUM(NSInteger, BBSettingsCellDisclosureType) {
 
 + (instancetype)switchCellForSel:(SEL)sel
                           target:(id)target
-                           title:(NSString *)title
-                        iconName:(NSString *)iconName
+                 attributedTitle:(NSAttributedString *)attributedTitle
+                            icon:(UIImage *)icon
                               on:(BOOL)isOn
                           height:(CGFloat)height;
 
 + (instancetype)normalCellForSel:(SEL)sel
                           target:(id)target
-                           title:(NSString *)title
-                        iconName:(NSString *)iconName
+                 attributedTitle:(NSAttributedString *)attributedTitle
+        disclosureAttributedText:(NSAttributedString *)disclosureAttributedText
+                            icon:(UIImage *)icon
                           height:(CGFloat)height;
 
 + (instancetype)cellForSel:(SEL)sel
                     target:(id)target
-                     title:(NSString *)title
-            disclosureText:(NSString *)disclosureText
-                  iconName:(NSString *)iconName
+           attributedTitle:(NSAttributedString *)attributedTitle
+  disclosureAttributedText:(NSAttributedString *)disclosureAttributedText
+                      icon:(UIImage *)icon
             disclosureType:(BBSettingsCellDisclosureType)disclosureType
                     height:(CGFloat)height;
 

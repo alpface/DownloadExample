@@ -9,12 +9,15 @@
 #import "BBAllMapViewController.h"
 #import "BBMapContinentTableViewCell.h"
 #import "BBMapDownloadTableViewCell.h"
-#import "BBMapContinentDetailViewController.h"
+#import "BBMapDownloadNodeViewController.h"
 #import "BBMapDownloadConst.h"
 #import "BBMapDownloadHotCityTableViewCell.h"
-#import "UIViewController+XYExtensions.h"
+#import "BBMapDownloadSettingTableViewCell.h"
+#import "BBMapDownloadSearchView.h"
 
 @interface BBAllMapViewController ()
+
+@property (nonatomic, strong) BBMapDownloadSearchView *searchView;
 
 @end
 
@@ -26,19 +29,36 @@
     [self.tableView registerClass:[BBMapContinentTableViewCell class] forCellReuseIdentifier:BBMapContinentTableViewCell.defaultIdentifier];
     [self.tableView registerClass:[BBMapDownloadTableViewCell class] forCellReuseIdentifier:BBMapDownloadTableViewCell.defaultIdentifier];
     [self.tableView registerClass:[BBMapDownloadHotCityTableViewCell class] forCellReuseIdentifier:BBMapDownloadHotCityTableViewCell.defaultIdentifier];
+    [self.tableView registerClass:[BBMapDownloadSettingTableViewCell class] forCellReuseIdentifier:BBMapDownloadSettingTableViewCell.defaultIdentifier];
     
+    [self setupSearchView];
     [self loadSectionItems];
     
 }
 
+- (void)setupSearchView {
+    self.searchView.title = @"输入城市名称或国家";
+    self.tableViewTopConstraint.constant = BBMapDownloadDownloadSearchViewHeight;
+    [self.searchView addTarget:self action:@selector(clickSearch) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)loadSectionItems {
     [self.sectionItems removeAllObjects];
+    [self appendSection:[self mapDescriptionSection]];
     [self appendSection:[self currentLocationSection]];
     [self appendSection:[self hotCitySection]];
     [self appendSection:[self allMapsSection]];
     [self.tableView reloadData];
 }
 
+- (BBTableViewSection *)mapDescriptionSection {
+    NSMutableArray<BBSettingsCellModel *> *items = @[].mutableCopy;
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:@"导航地图、旅游地图说明" attributes:@{NSFontAttributeName: BBMapDownloadFontWithSize(BBMapDownloadMiddleFontSize)}];
+    BBSettingsCellModel *model = [BBSettingsCellModel cellForSel:@selector(clickMapDescription) target:self attributedTitle:attributedTitle disclosureAttributedText:nil icon:nil disclosureType:BBSettingsCellDisclosureTypeNext height:34.0];
+    [items addObject:model];
+    BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:nil footerTitle:nil];
+    return section;
+}
 
 /// 当前查看/定位地区
 - (BBTableViewSection *)currentLocationSection {
@@ -110,8 +130,9 @@
 /// 全部地图
 - (BBTableViewSection *)allMapsSection {
     NSMutableArray<BBMapContinentTableViewCellModel *> *items = @[].mutableCopy;
-    for (NSInteger i = 0; i < 6; i++) {
+    for (NSInteger i = 0; i < 5; i++) {
         BBMapContinentTableViewCellModel *model = [[BBMapContinentTableViewCellModel alloc] initWithHeight:BBMapDownloadContinentCellHeight];
+        model.model = @(i).stringValue;
         model.cellClass = [BBMapContinentTableViewCell class];
         [items addObject:model];
     }
@@ -153,11 +174,64 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 2) {
-        BBMapContinentDetailViewController *vc = [[BBMapContinentDetailViewController alloc] init];
-        vc.navTitle = [[NSAttributedString alloc] initWithString:@"亚洲"];
-        [[UIViewController xy_getCurrentUIVC].navigationController pushViewController:vc animated:YES];
+    BBTableViewSection *section = self.sectionItems[indexPath.section];
+    BBMapDownloadBaseItem *item = section.items[indexPath.row];
+    if (item.cellClass == [BBMapContinentTableViewCell class]) {
+        [self showDownloadNodePageWithNode:item.model];
     }
+    else if (item.class == [BBMapDownloadTableViewCell class]) {
+        [self clickCurrentLocationCity];
+    }
+    else if (item.class == [BBMapDownloadHotCityTableViewCell class]) {
+        [self clickHotCity];
+    }
+    
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark - Actions
+////////////////////////////////////////////////////////////////////////
+
+/// 查看洲详情页
+- (void)showDownloadNodePageWithNode:(id)node {
+    BBMapDownloadNodeViewController *vc = [[BBMapDownloadNodeViewController alloc] initWithNode:node];
+    [[UIViewController xy_getCurrentUIVC].navigationController pushViewController:vc animated:YES];
+}
+
+/// 点击热门城市
+- (void)clickHotCity {
+    
+}
+
+/// 点击当前定位城市或当前地图中心的城市
+- (void)clickCurrentLocationCity {
+    
+}
+
+/// 查看导航、旅游说明
+- (void)clickMapDescription {
+    
+}
+
+/// 去搜索
+- (void)clickSearch {
+    
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark - Lazy
+////////////////////////////////////////////////////////////////////////
+- (BBMapDownloadSearchView *)searchView {
+    if (!_searchView) {
+        BBMapDownloadSearchView *view = BBMapDownloadSearchView.new;
+        _searchView = view;
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:view];
+        NSDictionary *viewDict = @{@"_searchView": view};
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[_searchView]|" options:kNilOptions metrics:nil views:viewDict]];
+        [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_searchView(==BBMapDownloadDownloadSearchViewHeight)]" options:kNilOptions metrics:@{@"BBMapDownloadDownloadSearchViewHeight": @(BBMapDownloadDownloadSearchViewHeight)} views:viewDict]];
+    }
+    return _searchView;
 }
 
 @end

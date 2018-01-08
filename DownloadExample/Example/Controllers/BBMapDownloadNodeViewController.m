@@ -1,28 +1,47 @@
 //
-//  BBMapContinentDetailViewController.m
+//  BBMapDownloadNodeViewController.m
 //  Boobuz
 //
 //  Created by xiaoyuan on 2018/1/4.
 //  Copyright © 2018年 erlinyou.com. All rights reserved.
 //
 
-#import "BBMapContinentDetailViewController.h"
+#import "BBMapDownloadNodeViewController.h"
 #import "BBMapDownloadConst.h"
 #import "BBMapDownloadTableViewCell.h"
 
-@interface BBMapContinentDetailViewController ()
+@interface BBMapDownloadNodeViewController ()
+
+@property (nonatomic, strong) id node;
 
 @end
 
-@implementation BBMapContinentDetailViewController
+@implementation BBMapDownloadNodeViewController
+
+- (instancetype)initWithNode:(id)node {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    self.node = node;
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self.tableView registerClass:[BBMapDownloadTableViewCell class] forCellReuseIdentifier:BBMapDownloadTableViewCell.defaultIdentifier];
     [self loadSectionItems];
+    
+    
 }
 
+- (void)setNode:(id)node {
+    _node = node;
+    NSString *title = node;
+    
+    self.navTitle = [[NSAttributedString alloc] initWithString:title];
+}
 
 - (void)loadSectionItems {
     [self.sectionItems removeAllObjects];

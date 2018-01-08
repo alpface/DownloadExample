@@ -7,7 +7,6 @@
 //
 
 #import "BBMapDownloadBaseItem.h"
-#import "BBMapDownloadConst.h"
 
 @implementation BBMapDownloadBaseItem
 
@@ -32,15 +31,13 @@
 
 @interface BBSettingsCellModel ()
 
-@property (nonatomic, copy, readwrite) NSString *title;
+@property (nonatomic, copy, readwrite) NSAttributedString *attributedTitle;
 
-@property (nonatomic, copy, readwrite) NSString *iconName;
-
-@property (nonatomic, copy, readwrite) UIColor *iconColor;
+@property (nonatomic, copy, readwrite) UIImage *icon;
 
 @property (nonatomic, assign, readwrite) BBSettingsCellDisclosureType disclosureType;
 
-@property (nonatomic, copy, readwrite) NSString *disclosureText;
+@property (nonatomic, copy, readwrite) NSAttributedString *disclosureAttributedText;
 
 @end
 
@@ -48,16 +45,17 @@
 
 + (instancetype)switchCellForSel:(SEL)sel
                           target:(id)target
-                           title:(NSString *)title
-                        iconName:(NSString *)iconName
+                 attributedTitle:(NSAttributedString *)attributedTitle
+                            icon:(UIImage *)icon
                               on:(BOOL)isOn
                           height:(CGFloat)height {
-    BBSettingsCellModel *item = [[self alloc] initWithTitle:title
-                                                  iconName:iconName
-                                                 iconColor:UIColorFromRGB(0xFF1B33)
-                                            disclosureType:BBSettingsCellDisclosureTypeSwitch
-                                            disclosureText:nil
-                                                isSwitchOn:isOn height:height];
+    BBSettingsCellModel *item = [[self alloc] initWithTitle:attributedTitle
+                                                       icon:icon
+                                             disclosureType:BBSettingsCellDisclosureTypeSwitch
+                                             disclosureText:nil
+                                                 isSwitchOn:isOn
+                                                     height:height];
+
     item.actionSelector = sel;
     item.actionTarget = target;
     
@@ -67,15 +65,16 @@
 
 + (instancetype)normalCellForSel:(SEL)sel
                           target:(id)target
-                           title:(NSString *)title
-                        iconName:(NSString *)iconName
+                 attributedTitle:(NSAttributedString *)attributedTitle
+        disclosureAttributedText:(NSAttributedString *)disclosureAttributedText
+                            icon:(UIImage *)icon
                           height:(CGFloat)height  {
-    BBSettingsCellModel *item = [[self alloc] initWithTitle:title
-                                                  iconName:iconName
-                                                 iconColor:UIColorFromRGB(0xFF1B33)
+    BBSettingsCellModel *item = [[self alloc] initWithTitle:attributedTitle
+                                                  icon:icon
                                             disclosureType:BBSettingsCellDisclosureTypeNormal
                                             disclosureText:nil
-                                                isSwitchOn:NO height:height];
+                                                isSwitchOn:NO
+                                                     height:height];
     item.actionSelector = sel;
     item.actionTarget = target;
     
@@ -84,38 +83,37 @@
 
 + (instancetype)cellForSel:(SEL)sel
                     target:(id)target
-                     title:(NSString *)title
-            disclosureText:(NSString *)disclosureText
-                  iconName:(NSString *)iconName
+           attributedTitle:(NSAttributedString *)attributedTitle
+  disclosureAttributedText:(NSAttributedString *)disclosureAttributedText
+                      icon:(UIImage *)icon
             disclosureType:(BBSettingsCellDisclosureType)disclosureType
                     height:(CGFloat)height {
-    BBSettingsCellModel *item = [[self alloc] initWithTitle:title
-                                                  iconName:iconName
-                                                 iconColor:UIColorFromRGB(0xFF1B33)
-                                            disclosureType:disclosureType
-                                            disclosureText:disclosureText
-                                                isSwitchOn:NO height:height];
+    BBSettingsCellModel *item = [[self alloc] initWithTitle:attributedTitle
+                                                       icon:icon
+                                             disclosureType:disclosureType
+                                             disclosureText:disclosureAttributedText
+                                                 isSwitchOn:NO
+                                                     height:height];
     item.actionSelector = sel;
     item.actionTarget = target;
     
     return item;
 }
 
-- (instancetype)initWithTitle:(NSString *)title
-                     iconName:(NSString *)iconName
-                    iconColor:(UIColor *)iconColor
+- (instancetype)initWithTitle:(NSAttributedString *)attributedTitle
+                         icon:(UIImage *)icon
                disclosureType:(BBSettingsCellDisclosureType)disclosureType
-               disclosureText:(NSString *)disclosureText
+               disclosureText:(NSAttributedString *)disclosureText
                    isSwitchOn:(BOOL)isSwitchOn
                        height:(CGFloat)height {
     self = [super initWithHeight:height];
     if (self) {
+        self.cellClass = NSClassFromString(@"BBMapDownloadSettingTableViewCell");
         self.disclosureType = disclosureType;
-        self.title = title;
-        self.iconName = iconName;
-        self.iconColor = iconColor;
+        self.attributedTitle = attributedTitle;
+        self.icon = icon;
         self.disclosureType = disclosureType;
-        self.disclosureText = disclosureText;
+        self.disclosureAttributedText = disclosureText;
         self.isSwitchOn = isSwitchOn;
         
     }

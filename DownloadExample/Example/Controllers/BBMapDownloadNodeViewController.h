@@ -1,5 +1,5 @@
 //
-//  BBMapContinentDetailViewController.h
+//  BBMapDownloadNodeViewController.h
 //  Boobuz
 //
 //  Created by xiaoyuan on 2018/1/4.
@@ -8,6 +8,8 @@
 
 #import "BBMapDownloadBaseViewController.h"
 
-@interface BBMapContinentDetailViewController : BBMapDownloadBaseViewController
+@interface BBMapDownloadNodeViewController : BBMapDownloadBaseViewController
+
+- (instancetype)initWithNode:(id)node;
 
 @end

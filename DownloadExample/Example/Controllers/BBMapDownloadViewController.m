@@ -30,9 +30,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupViews];
     [self addChildViewControllers];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

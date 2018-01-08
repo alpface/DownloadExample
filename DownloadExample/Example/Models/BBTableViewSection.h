@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSAttributedString *footerTitle;
 @property (nonatomic, strong) NSArray<BBMapDownloadBaseItem *> *items;
 
-- (instancetype)initWithItems:(NSArray<BBMapDownloadBaseItem *> *)items headerTitle:(NSAttributedString *)headerTitle footerTitle:(NSAttributedString *)footerTitle;
+- (instancetype)initWithItems:(NSArray<BBMapDownloadBaseItem *> *)items
+                  headerTitle:(NSAttributedString *)headerTitle
+                  footerTitle:(NSAttributedString *)footerTitle;
 
 @end
