@@ -92,17 +92,17 @@
 - (void)testData {
     
     // 模拟10秒钟后文件下载完成
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//
-//        BBTableViewSection *downloadIngSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(createDownloadingSection))];
-//        BBTableViewSection *downloadedSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(createDownloadedSection))];
-//        if (!downloadedSection) {
-//            downloadedSection = [BBTableViewSection createDownloadedSection];
-//            BBTableViewSection *downloadUpdateSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(settingSection))];
-//            [self updateSectionOfTableViewSection:downloadUpdateSection];
-//            [self insertSection:downloadedSection atIndex:downloadUpdateSection.sectionOfTable];
-//        }
-//        [self moveCellModels:downloadIngSection.items.mutableCopy toSection:downloadedSection];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+
+        BBTableViewSection *downloadIngSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(createDownloadingSection))];
+        BBTableViewSection *downloadedSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(createDownloadedSection))];
+        if (!downloadedSection) {
+            downloadedSection = [BBTableViewSection createDownloadedSection];
+            BBTableViewSection *downloadUpdateSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(settingSection))];
+            [self updateSectionOfTableViewSection:downloadUpdateSection];
+            [self insertSection:downloadedSection atIndex:downloadUpdateSection.sectionOfTable];
+        }
+        [self moveCellModels:downloadIngSection.items.mutableCopy toSection:downloadedSection];
     
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
@@ -118,9 +118,9 @@
                 [self updateSectionOfTableViewSection:downloadUpdateSection];
                 [self insertSection:downloadedSection atIndex:downloadUpdateSection.sectionOfTable];
             }
-            [self moveCellModel:downloadIngSection.items.lastObject toSection:downloadedSection];
+            [self moveCellModel:downloadedSection.items.lastObject toSection:downloadIngSection];
         });
-//    });
+    });
 }
 
 
