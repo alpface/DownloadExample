@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSAttributedString *footerTitle;
 @property (nonatomic, strong, readonly) NSMutableArray<id<CellModelProtocol>> *items;
 @property (nonatomic, assign) NSInteger sectionOfTable;
+@property (nonatomic, copy) NSString *identifier;
 
 - (instancetype)initWithItems:(NSMutableArray<id<CellModelProtocol>> *)items
                   headerTitle:(NSAttributedString *)headerTitle

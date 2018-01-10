@@ -82,7 +82,9 @@
         [items addObject:cellModel];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"当前查看/定位"] footerTitle:nil];
+    
 #if !DEBUG
+    // 获取到当前gps地图回调
     __weak typeof(&*section) weakSection = section;
     __weak typeof(&*self) weakSelf = self;
     [[NewDownloadModule getInstance] getCurGpsMapModelCallBack:^( MapModel * map) {
@@ -105,6 +107,23 @@
 
         }
     }];
+#else
+    // 模拟5秒钟后获取到当前gps的地图
+    __weak typeof(&*section) weakSection = section;
+    __weak typeof(&*self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        __strong typeof(&*weakSection) section = weakSection;
+        __strong typeof(&*weakSelf) self = weakSelf;
+        NSArray *newCitys = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(4, 6)]];
+        for (MapModel *map in newCitys) {
+            BBMapDownloadTableViewCellModel *cellModel = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight target:self action:@selector(clickDownloadAction:)];
+            cellModel.cellClass = [BBMapDownloadTableViewCell class];
+            cellModel.model = map;
+            [section.items addObject:cellModel];
+        }
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section.sectionOfTable] withRowAnimation:UITableViewRowAnimationAutomatic];
+    });
 #endif
     return section;
 }

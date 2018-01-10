@@ -77,7 +77,7 @@
     NSMutableArray *downloadingArray = [NewDownloadModule getInstance].downloadingArray;
 #if DEBUG
     if (!downloadingArray.count) {
-        downloadingArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(3, 6)]].mutableCopy;
+        downloadingArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(3, 4)]].mutableCopy;
     }
 #endif
     NSMutableArray *items = @[].mutableCopy;
@@ -90,6 +90,38 @@
         [items addObject:model];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"下载中"] footerTitle:nil];
+#if DEBUG
+    // 模拟10秒后下载完成
+    __weak typeof(&*section) weakSection = section;
+    __weak typeof(&*self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        __strong typeof(&*weakSection) section = weakSection;
+        __strong typeof(&*weakSelf) self = weakSelf;
+        NSArray *downloadedArray = [section.items objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, section.items.count -1)]];
+        BBTableViewSection *downloadedSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(downloadedSection))];
+        [self updateSectionOfTableViewSection:section];
+        
+        [self.tableView beginUpdates];
+        NSInteger orginSection = [self.sectionItems indexOfObject:section];
+        NSMutableArray *orginIndexPaths = @[].mutableCopy;
+        NSMutableArray *newIndexPaths = @[].mutableCopy;
+        NSInteger beginRow = downloadedSection.items.count;
+        for (id item in downloadedArray) {
+            NSInteger row = [section.items indexOfObject:item];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:orginSection];
+            [orginIndexPaths addObject:indexPath];
+            NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:beginRow inSection:downloadedSection.sectionOfTable];
+            [newIndexPaths addObject:newIndexPath];
+            beginRow++;
+        }
+        [self.tableView deleteRowsAtIndexPaths:orginIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView insertRowsAtIndexPaths:newIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        [section.items removeObjectsInArray:downloadedArray];
+        [downloadedSection.items addObjectsFromArray:downloadedArray];
+        [self.tableView endUpdates];
+    });
+#endif
+    section.identifier = NSStringFromSelector(_cmd);
     return section;
 }
 
@@ -98,7 +130,7 @@
     NSMutableArray *updateArray = [NewDownloadModule getInstance].needToUpdateMap;
 #if DEBUG
     if (!updateArray.count) {
-        updateArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)]].mutableCopy;
+        updateArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]].mutableCopy;
     }
 #endif
     NSMutableArray *items = @[].mutableCopy;
@@ -111,6 +143,7 @@
         [items addObject:model];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"待更新"] footerTitle:nil];
+    section.identifier = NSStringFromSelector(_cmd);
     return section;
 }
 
@@ -119,7 +152,7 @@
     NSMutableArray *downloadedArray = [NewDownloadModule getInstance].downloadedArray;
 #if DEBUG
     if (!downloadedArray.count) {
-        downloadedArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(6, 8)]].mutableCopy;
+        downloadedArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(6, 2)]].mutableCopy;
     }
 #endif
     NSMutableArray *items = @[].mutableCopy;
@@ -132,6 +165,7 @@
         [items addObject:model];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"已下载"] footerTitle:nil];
+    section.identifier = NSStringFromSelector(_cmd);
     return section;
 }
 

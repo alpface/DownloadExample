@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D0981EAF2005A0F000DF4503 /* RuntimeInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = D0981EAE2005A0F000DF4503 /* RuntimeInvoker.m */; };
 		D0981EB22005A26E00DF4503 /* MapDownloadConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D0981EB02005A26E00DF4503 /* MapDownloadConfiguration.m */; };
 		D0981EB42005A52500DF4503 /* BBBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0981EB32005A52500DF4503 /* BBBaseTableViewCell.m */; };
 		D09EE5322003688100E0C3C4 /* BBMapDownloadNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09EE5302003688000E0C3C4 /* BBMapDownloadNodeViewController.m */; };
@@ -231,6 +230,7 @@
 		D09EE6F1200395BC00E0C3C4 /* country_9050000.png in Resources */ = {isa = PBXBuildFile; fileRef = D09EE620200395BB00E0C3C4 /* country_9050000.png */; };
 		D09EE6F2200395BC00E0C3C4 /* country_9100000.png in Resources */ = {isa = PBXBuildFile; fileRef = D09EE621200395BB00E0C3C4 /* country_9100000.png */; };
 		D09EE6F3200395BC00E0C3C4 /* country_9990000.png in Resources */ = {isa = PBXBuildFile; fileRef = D09EE622200395BB00E0C3C4 /* country_9990000.png */; };
+		D24CB9562006361C00DEE95D /* RuntimeInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = D24CB9542006361C00DEE95D /* RuntimeInvoker.m */; };
 		D2B23DD120006EE600329C6C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DD020006EE600329C6C /* AppDelegate.m */; };
 		D2B23DD920006EE600329C6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2B23DD820006EE600329C6C /* Assets.xcassets */; };
 		D2B23DDC20006EE600329C6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2B23DDA20006EE600329C6C /* LaunchScreen.storyboard */; };
@@ -258,8 +258,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D0981EAD2005A0EF00DF4503 /* RuntimeInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuntimeInvoker.h; path = ../../../../../../Desktop/work/trunk/IOSNewMapDownload/nav/public/util/RuntimeInvoker.h; sourceTree = "<group>"; };
-		D0981EAE2005A0F000DF4503 /* RuntimeInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuntimeInvoker.m; path = ../../../../../../Desktop/work/trunk/IOSNewMapDownload/nav/public/util/RuntimeInvoker.m; sourceTree = "<group>"; };
 		D0981EB02005A26E00DF4503 /* MapDownloadConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapDownloadConfiguration.m; sourceTree = "<group>"; };
 		D0981EB12005A26E00DF4503 /* MapDownloadConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapDownloadConfiguration.h; sourceTree = "<group>"; };
 		D0981EB32005A52500DF4503 /* BBBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBBaseTableViewCell.m; sourceTree = "<group>"; };
@@ -492,6 +490,8 @@
 		D09EE620200395BB00E0C3C4 /* country_9050000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = country_9050000.png; sourceTree = "<group>"; };
 		D09EE621200395BB00E0C3C4 /* country_9100000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = country_9100000.png; sourceTree = "<group>"; };
 		D09EE622200395BB00E0C3C4 /* country_9990000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = country_9990000.png; sourceTree = "<group>"; };
+		D24CB9542006361C00DEE95D /* RuntimeInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RuntimeInvoker.m; sourceTree = "<group>"; };
+		D24CB9552006361C00DEE95D /* RuntimeInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuntimeInvoker.h; sourceTree = "<group>"; };
 		D2B23DCC20006EE600329C6C /* DownloadExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DownloadExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2B23DCF20006EE600329C6C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D2B23DD020006EE600329C6C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -909,8 +909,8 @@
 		D2B23E1F2000738100329C6C /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				D0981EAD2005A0EF00DF4503 /* RuntimeInvoker.h */,
-				D0981EAE2005A0F000DF4503 /* RuntimeInvoker.m */,
+				D24CB9552006361C00DEE95D /* RuntimeInvoker.h */,
+				D24CB9542006361C00DEE95D /* RuntimeInvoker.m */,
 				D2B23E2D2000773D00329C6C /* UIView+ConstraintsExtend.h */,
 				D2B23E2C2000773D00329C6C /* UIView+ConstraintsExtend.m */,
 				D2B23E20200073BD00329C6C /* UIImage+Extend.h */,
@@ -1215,6 +1215,7 @@
 				D2B23E28200075F400329C6C /* UIViewController+XYExtensions.m in Sources */,
 				D09EE53E200391A100E0C3C4 /* Download_level0_Model.m in Sources */,
 				D09EE53F200391A100E0C3C4 /* Download_level2_Model.m in Sources */,
+				D24CB9562006361C00DEE95D /* RuntimeInvoker.m in Sources */,
 				D2B23E19200072D500329C6C /* BBMapDownloadSettingTableViewCell.m in Sources */,
 				D2B23E0D200072D500329C6C /* BBTableViewSection.m in Sources */,
 				D09EE5472003921500E0C3C4 /* NewDownloadModule.m in Sources */,
@@ -1227,7 +1228,6 @@
 				D2B23DD120006EE600329C6C /* AppDelegate.m in Sources */,
 				D2B23E11200072D500329C6C /* BBMapDownloadBaseViewController.m in Sources */,
 				D09EE544200391F200E0C3C4 /* BBMapDownloadNodeTableViewCell.m in Sources */,
-				D0981EAF2005A0F000DF4503 /* RuntimeInvoker.m in Sources */,
 				D2B23E0E200072D500329C6C /* BBAllMapViewController.m in Sources */,
 				D09EE540200391A100E0C3C4 /* DownloadNode.m in Sources */,
 				D09EE5322003688100E0C3C4 /* BBMapDownloadNodeViewController.m in Sources */,

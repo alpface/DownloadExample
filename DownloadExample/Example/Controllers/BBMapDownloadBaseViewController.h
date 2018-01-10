@@ -15,6 +15,10 @@
 - (void)loadSectionItems;
 - (void)clearSectionItems;
 - (BOOL)appendSection:(BBTableViewSection *)section;
+- (BBTableViewSection *)getSectionWithIdentifier:(NSString *)identifier;
+- (BBTableViewSection *)getSectionWithIndex:(NSInteger)index;
+- (id<CellModelProtocol>)getCellModelWithIndexPath:(NSIndexPath *)indexPath;
+- (void)updateSectionOfTableViewSection:(BBTableViewSection *)section;
 
 @end
 

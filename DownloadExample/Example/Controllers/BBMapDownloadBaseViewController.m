@@ -94,6 +94,9 @@
     self.customNavView.titleAttributedText = navTitle;
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark - Section
+////////////////////////////////////////////////////////////////////////
 
 - (void)loadSectionItems {
     
@@ -114,6 +117,43 @@
     }
     [self.sectionItems addObject:section];
     return YES;
+}
+
+- (BBTableViewSection *)getSectionWithIdentifier:(NSString *)identifier {
+    NSUInteger foundIdx = [self.sectionItems indexOfObjectPassingTest:^BOOL(BBTableViewSection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        BOOL res = [obj.identifier isEqualToString:identifier];
+        if (res) {
+            *stop = YES;
+        }
+        return res;
+    }];
+    if (self.sectionItems && foundIdx != NSNotFound) {
+        return [self.sectionItems objectAtIndex:foundIdx];
+    }
+    return nil;
+}
+
+- (BBTableViewSection *)getSectionWithIndex:(NSInteger)index {
+    if (index >= self.sectionItems.count) {
+        return nil;
+    }
+    return [self.sectionItems objectAtIndex:index];
+}
+
+- (id<CellModelProtocol>)getCellModelWithIndexPath:(NSIndexPath *)indexPath {
+    BBTableViewSection *section = [self getSectionWithIndex:indexPath.section];
+    if (!section) {
+        return nil;
+    }
+
+    if (indexPath.row >= section.items.count) {
+        return nil;
+    }
+    return [section.items objectAtIndex:indexPath.row];
+}
+
+- (void)updateSectionOfTableViewSection:(BBTableViewSection *)section {
+    section.sectionOfTable = [self.sectionItems indexOfObject:section];
 }
 
 ////////////////////////////////////////////////////////////////////////
