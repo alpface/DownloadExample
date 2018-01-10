@@ -15,10 +15,15 @@
 - (void)loadSectionItems;
 - (void)clearSectionItems;
 - (BOOL)appendSection:(BBTableViewSection *)section;
+- (BOOL)insertSection:(BBTableViewSection *)section atIndex:(NSInteger)index;
 - (BBTableViewSection *)getSectionWithIdentifier:(NSString *)identifier;
 - (BBTableViewSection *)getSectionWithIndex:(NSInteger)index;
 - (id<CellModelProtocol>)getCellModelWithIndexPath:(NSIndexPath *)indexPath;
 - (void)updateSectionOfTableViewSection:(BBTableViewSection *)section;
+//- (void)moveCellModelsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths fromSection:(BBTableViewSection *)fromSection toSection:(BBTableViewSection *)toSection;
+- (void)moveCellModelAtIndexPath:(NSIndexPath *)indexPath toSection:(BBTableViewSection *)toSection;
+- (void)moveCellModel:(id<CellModelProtocol>)cellModel toSection:(BBTableViewSection *)toSection;
+- (void)removeCellModelsInSectionsAtIndexPath:(NSArray<NSIndexPath *> *)indexPaths;
 
 @end
 

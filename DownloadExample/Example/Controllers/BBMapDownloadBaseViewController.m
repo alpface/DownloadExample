@@ -112,10 +112,16 @@
         return NO;
     }
     NSParameterAssert([section isKindOfClass:[BBTableViewSection class]]);
+    [self.sectionItems addObject:section];
+    return YES;
+}
+
+- (BOOL)insertSection:(BBTableViewSection *)section atIndex:(NSInteger)index {
     if (!section) {
         return NO;
     }
-    [self.sectionItems addObject:section];
+    NSParameterAssert(index < self.sectionItems.count);
+    [self.sectionItems insertObject:section atIndex:index];
     return YES;
 }
 
@@ -140,20 +146,216 @@
     return [self.sectionItems objectAtIndex:index];
 }
 
+- (NSIndexPath *)getIndexPathWithCellModel:(id<CellModelProtocol>)cellModel {
+    
+    if (!cellModel) {
+        return nil;
+    }
+    
+    __block NSIndexPath *indexPath = nil;
+    [self.sectionItems enumerateObjectsUsingBlock:^(BBTableViewSection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSInteger foundIdx = NSNotFound;
+        if (obj.items) {
+          foundIdx = [obj.items indexOfObject:cellModel];
+        }
+        if (foundIdx != NSNotFound) {
+            *stop = YES;
+            indexPath = [NSIndexPath indexPathForRow:foundIdx inSection:idx];
+        }
+    }];
+
+    return indexPath;
+}
+
 - (id<CellModelProtocol>)getCellModelWithIndexPath:(NSIndexPath *)indexPath {
     BBTableViewSection *section = [self getSectionWithIndex:indexPath.section];
     if (!section) {
         return nil;
     }
-
+    
     if (indexPath.row >= section.items.count) {
         return nil;
     }
     return [section.items objectAtIndex:indexPath.row];
 }
 
+- (void)removeCellModelsInSectionsAtIndexPath:(NSArray<NSIndexPath *> *)indexPaths {
+    
+    if (!indexPaths.count) {
+        return;
+    }
+    [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull indexPath, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (indexPath.section >= self.sectionItems.count) {
+            return;
+        }
+        NSMutableArray *items = self.sectionItems[indexPath.section].items;
+        if (!items.count || indexPath.row >= items.count) {
+            [items removeObjectAtIndex:indexPath.row];
+        }
+    }];
+}
+
+- (BOOL)removeObjectInSectionsAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (!indexPath) {
+        return NO;
+    }
+    if (indexPath.section >= self.sectionItems.count) {
+        return NO;
+    }
+    NSMutableArray *items = self.sectionItems[indexPath.section].items;
+    if (!items.count || indexPath.row >= items.count) {
+        [items removeObjectAtIndex:indexPath.row];
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)removeObjectInSections:(id<CellModelProtocol>)cellModel removedIndexPath:(NSIndexPath * __autoreleasing *)indexPath {
+    
+    if (!cellModel || !self.sectionItems.count) {
+        return NO;
+    }
+    
+    __block BOOL res = NO;
+    [self.sectionItems enumerateObjectsUsingBlock:^(BBTableViewSection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSInteger foundIdx = NSNotFound;
+        if (obj.items) {
+            foundIdx = [obj.items indexOfObject:cellModel];
+        }
+        if (foundIdx != NSNotFound) {
+            *stop = YES;
+            if (indexPath) {
+                *indexPath = [NSIndexPath indexPathForRow:foundIdx inSection:idx];
+            }
+            [obj.items removeObjectAtIndex:foundIdx];
+            res = YES;
+        }
+    }];
+    
+    
+    return res;
+}
+
+
 - (void)updateSectionOfTableViewSection:(BBTableViewSection *)section {
     section.sectionOfTable = [self.sectionItems indexOfObject:section];
+}
+
+//- (void)moveCellModelsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths toSection:(BBTableViewSection *)section {
+//
+//    [self updateSectionOfTableViewSection:section];
+//    [self.tableView beginUpdates];
+//    
+//    NSMutableArray *newIndexPaths = @[].mutableCopy;
+//    NSInteger beginRow = section.items.count;
+//    for (NSIndexPath *indexPath in indexPaths) {
+//        if (indexPath.section >= self.sectionItems.count) {
+//            continue;
+//        }
+//        if (indexPath.row >= self.sectionItems[indexPath.section].items.count) {
+//            continue;
+//        }
+//        [section.items addObject:self.sectionItems[indexPath.section].items[indexPath.row]];
+//        [self.sectionItems[indexPath.section].items removeObjectAtIndex:indexPath.row];
+//        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:beginRow inSection:section.sectionOfTable];
+//        [newIndexPaths addObject:newIndexPath];
+//        
+//        beginRow++;
+//    }
+//    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView insertRowsAtIndexPaths:newIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView endUpdates];
+//}
+
+- (void)moveCellModelAtIndexPath:(NSIndexPath *)indexPath toSection:(BBTableViewSection *)toSection {
+    
+    // 当传入参数是错误的时，会导致下面的逻辑错误，所以不要传错数据
+    NSParameterAssert(toSection && indexPath.section < self.sectionItems.count && indexPath.row < self.sectionItems[indexPath.section].items.count);
+    
+    if (!toSection) {
+        return;
+    }
+    if (indexPath.section >= self.sectionItems.count) {
+        return;
+    }
+    BBTableViewSection *orSec = self.sectionItems[indexPath.section];
+    if (indexPath.row >= orSec.items.count) {
+        return;
+    }
+    
+    [self.tableView beginUpdates];
+    
+    // 移动时，如果这一组只有这一个元素，就从sectionItems中移除这组
+   id<CellModelProtocol> cellModel = orSec.items[indexPath.row];
+    if (orSec.items.count == 1) {
+        [self.sectionItems removeObject:orSec];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else {
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    
+    [self updateSectionOfTableViewSection:toSection];
+    
+    // 当toSection.items的count为0时，我会认定他为刚添加的一组
+    // 因为当item.count为0时，我会将他从sectionItems移除
+    BOOL isNewSection = toSection.items.count == 0;
+    if (!isNewSection) {
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:toSection.sectionOfTable] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else {
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:toSection.items.count inSection:toSection.sectionOfTable];
+        [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    [toSection.items addObject:cellModel];
+    
+    [self.tableView endUpdates];
+}
+
+- (void)moveCellModel:(id<CellModelProtocol>)cellModel toSection:(BBTableViewSection *)toSection {
+    // 当传入参数是错误的时，会导致下面的逻辑错误，所以不要传错数据
+    NSParameterAssert(toSection && cellModel);
+    
+    if (!toSection) {
+        return;
+    }
+ 
+    [self.tableView beginUpdates];
+    
+    // 移动时，如果这一组只有这一个元素，就从sectionItems中移除这组
+    NSIndexPath *removedIndexPath = nil;
+    BOOL isRemoveSuccess = [self removeObjectInSections:cellModel removedIndexPath:&removedIndexPath];
+    if (isRemoveSuccess) {
+        // 移除成功时，且此时removedIndexPath这一组的items个数为0.就将这一组从sectionItems中移除
+        BBTableViewSection *sec1 = self.sectionItems[removedIndexPath.section];
+        if (!sec1.items.count) {
+            [self.sectionItems removeObjectAtIndex:removedIndexPath.section];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:removedIndexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        else {
+           [self.tableView deleteRowsAtIndexPaths:@[removedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        
+    }
+
+    
+    [self updateSectionOfTableViewSection:toSection];
+    
+    // 当toSection.items的count为0时，我会认定他为刚添加的一组
+    // 因为当item.count为0时，我会将他从sectionItems移除
+    BOOL isNewSection = toSection.items.count == 0;
+    if (!isNewSection) {
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:toSection.items.count inSection:toSection.sectionOfTable];
+        [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else {
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:toSection.sectionOfTable] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+    }
+    [toSection.items addObject:cellModel];
+    
+    [self.tableView endUpdates];
 }
 
 ////////////////////////////////////////////////////////////////////////

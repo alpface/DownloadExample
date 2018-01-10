@@ -231,6 +231,7 @@
 		D09EE6F2200395BC00E0C3C4 /* country_9100000.png in Resources */ = {isa = PBXBuildFile; fileRef = D09EE621200395BB00E0C3C4 /* country_9100000.png */; };
 		D09EE6F3200395BC00E0C3C4 /* country_9990000.png in Resources */ = {isa = PBXBuildFile; fileRef = D09EE622200395BB00E0C3C4 /* country_9990000.png */; };
 		D24CB9562006361C00DEE95D /* RuntimeInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = D24CB9542006361C00DEE95D /* RuntimeInvoker.m */; };
+		D24CB959200663E700DEE95D /* BBTableViewSection+BBDownloadManagerExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = D24CB958200663E700DEE95D /* BBTableViewSection+BBDownloadManagerExtend.m */; };
 		D2B23DD120006EE600329C6C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B23DD020006EE600329C6C /* AppDelegate.m */; };
 		D2B23DD920006EE600329C6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2B23DD820006EE600329C6C /* Assets.xcassets */; };
 		D2B23DDC20006EE600329C6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2B23DDA20006EE600329C6C /* LaunchScreen.storyboard */; };
@@ -492,6 +493,8 @@
 		D09EE622200395BB00E0C3C4 /* country_9990000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = country_9990000.png; sourceTree = "<group>"; };
 		D24CB9542006361C00DEE95D /* RuntimeInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RuntimeInvoker.m; sourceTree = "<group>"; };
 		D24CB9552006361C00DEE95D /* RuntimeInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuntimeInvoker.h; sourceTree = "<group>"; };
+		D24CB957200663E700DEE95D /* BBTableViewSection+BBDownloadManagerExtend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BBTableViewSection+BBDownloadManagerExtend.h"; sourceTree = "<group>"; };
+		D24CB958200663E700DEE95D /* BBTableViewSection+BBDownloadManagerExtend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "BBTableViewSection+BBDownloadManagerExtend.m"; sourceTree = "<group>"; };
 		D2B23DCC20006EE600329C6C /* DownloadExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DownloadExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2B23DCF20006EE600329C6C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D2B23DD020006EE600329C6C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -852,6 +855,8 @@
 				D2B23DEA200072D500329C6C /* BBMapDownloadBaseItem.m */,
 				D2B23DEB200072D500329C6C /* BBTableViewSection.h */,
 				D2B23DEC200072D500329C6C /* BBTableViewSection.m */,
+				D24CB957200663E700DEE95D /* BBTableViewSection+BBDownloadManagerExtend.h */,
+				D24CB958200663E700DEE95D /* BBTableViewSection+BBDownloadManagerExtend.m */,
 				D2B23E29200076E800329C6C /* MapModel.h */,
 				D2B23E2A200076E900329C6C /* MapModel.m */,
 				D09EE5452003921500E0C3C4 /* NewDownloadModule.h */,
@@ -1235,6 +1240,7 @@
 				D2B23E12200072D500329C6C /* BBMapDownloadViewController.m in Sources */,
 				D2B23E1B200072D500329C6C /* BBPageScrollView.m in Sources */,
 				D2B23E2E2000773D00329C6C /* UIView+ConstraintsExtend.m in Sources */,
+				D24CB959200663E700DEE95D /* BBTableViewSection+BBDownloadManagerExtend.m in Sources */,
 				D2B23E15200072D500329C6C /* BBMapDownloadHotCityTableViewCell.m in Sources */,
 				D2B23E1E2000730B00329C6C /* BaseCellModel.m in Sources */,
 				D2B23E17200072D500329C6C /* BBMapDownloadNetworkStateView.m in Sources */,

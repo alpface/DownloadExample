@@ -20,14 +20,18 @@
                   headerTitle:(NSAttributedString *)headerTitle
                   footerTitle:(NSAttributedString *)footerTitle {
     if (self = [super init]) {
-        if (!items.count) {
-            return nil;
-        }
         self.items = items;
         self.headerTitle = headerTitle;
         self.footerTitle = footerTitle;
     }
     return self;
+}
+
+- (NSMutableArray<id<CellModelProtocol>> *)items {
+    if (!_items) {
+        _items = @[].mutableCopy;
+    }
+    return _items;
 }
 
 @end
