@@ -120,8 +120,12 @@
     if (!section) {
         return NO;
     }
-    NSParameterAssert(index < self.sectionItems.count);
-    [self.sectionItems insertObject:section atIndex:index];
+    if (index < self.sectionItems.count) {
+        [self.sectionItems insertObject:section atIndex:index];
+    }
+    else {
+        [self.sectionItems addObject:section];
+    }
     return YES;
 }
 
@@ -366,7 +370,9 @@
         
     }
 
-    
+    if (![self.sectionItems containsObject:toSection]) {
+        [self insertSection:toSection atIndex:toSection.sectionOfTable];
+    }
     [self updateSectionOfTableViewSection:toSection];
     
     // 当toSection.items的count为0时，我会认定他为刚添加的一组
@@ -414,6 +420,10 @@
     }];
     if (needRemoveSections.count) {
         [self.sectionItems removeObjectsInArray:needRemoveSections];
+    }
+    
+    if (![self.sectionItems containsObject:toSection]) {
+        [self insertSection:toSection atIndex:toSection.sectionOfTable];
     }
     
     [self updateSectionOfTableViewSection:toSection];

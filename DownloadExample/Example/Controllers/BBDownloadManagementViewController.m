@@ -100,7 +100,8 @@
             downloadedSection = [BBTableViewSection createDownloadedSection];
             BBTableViewSection *downloadUpdateSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(settingSection))];
             [self updateSectionOfTableViewSection:downloadUpdateSection];
-            [self insertSection:downloadedSection atIndex:downloadUpdateSection.sectionOfTable];
+            downloadedSection.sectionOfTable = downloadUpdateSection.sectionOfTable;
+//            [self insertSection:downloadedSection atIndex:downloadUpdateSection.sectionOfTable];
         }
         [self moveCellModels:downloadIngSection.items.mutableCopy toSection:downloadedSection];
     
@@ -110,13 +111,13 @@
             BBTableViewSection *downloadedSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(createDownloadedSection))];
             if (!downloadIngSection) {
                 downloadIngSection = [BBTableViewSection createDownloadingSection];
-                [self insertSection:downloadIngSection atIndex:0];
+                downloadIngSection.sectionOfTable = 0;
             }
             if (!downloadedSection) {
                 downloadedSection = [BBTableViewSection createDownloadedSection];
                 BBTableViewSection *downloadUpdateSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(settingSection))];
                 [self updateSectionOfTableViewSection:downloadUpdateSection];
-                [self insertSection:downloadedSection atIndex:downloadUpdateSection.sectionOfTable];
+                downloadedSection.sectionOfTable = downloadUpdateSection.sectionOfTable;
             }
             [self moveCellModel:downloadedSection.items.lastObject toSection:downloadIngSection];
         });
