@@ -20,12 +20,27 @@
     // Override point for customization after application launch.
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    BBMapDownloadViewController *vc = [BBMapDownloadViewController new];
+    
+    UIViewController *vc = [[UIViewController alloc] init];
+    vc.view.backgroundColor = [UIColor whiteColor];
+    UIButton *btn = [UIButton new];
+    [vc.view addSubview:btn];
+    btn.backgroundColor = [UIColor redColor];
+    [btn setTitle:@"download example" forState:UIControlStateNormal];
+    btn.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:vc.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0].active = YES;
+    [NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:vc.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0].active = YES;
+    
+    [btn addTarget:self action:@selector(showDownloadExample) forControlEvents:UIControlEventTouchUpInside];
     UINavigationController *nac = [[UINavigationController alloc] initWithRootViewController:vc];
     self.window.rootViewController = nac;
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void)showDownloadExample {
+    [(UINavigationController *)self.window.rootViewController pushViewController:[BBMapDownloadViewController new] animated:YES];
 }
 
 

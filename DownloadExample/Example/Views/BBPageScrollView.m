@@ -59,6 +59,7 @@
     self.segmentedControl = nil;
     self.pageControl = nil;
     self.pageDataSource = nil;
+    _controllers = nil;
 }
 
 ////////////////////////////////////////////////////////////////////////

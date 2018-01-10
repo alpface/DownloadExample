@@ -67,6 +67,7 @@
     BBAllMapViewController *vc2 = [BBAllMapViewController new];
     [self.scrollView addViewController:vc1];
     [self.scrollView addViewController:vc2];
+    self.scrollView.currentPageIndex = 1;
 }
 
 - (void)setupPageScrollView {

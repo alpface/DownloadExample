@@ -20,6 +20,10 @@
 @synthesize tableView = _tableView;
 @synthesize customNavView = _customNavView;
 
+- (void)dealloc {
+    self.sectionItems = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self _setupViews];
