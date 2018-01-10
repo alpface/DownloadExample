@@ -8,6 +8,6 @@
 
 #import "BBBaseTableViewCell.h"
 
-@interface BBMapDownloadTableViewCell : UITableViewCell <BBBaseTableViewCell>
+@interface BBMapDownloadTableViewCell : BBBaseTableViewCell 
 
 @end

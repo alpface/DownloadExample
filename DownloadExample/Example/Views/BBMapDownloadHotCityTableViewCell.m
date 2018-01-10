@@ -10,6 +10,7 @@
 #import "BBMapDownloadConst.h"
 #import "BBMapDownloadBaseItem.h"
 #import "MapModel.h"
+#import "RuntimeInvoker.h"
 
 @interface BBMapDownloadHotCityTableViewCell ()
 
@@ -31,12 +32,13 @@
             [self.cityButtonList addObject:button];
             [self.contentView addSubview:button];
         }
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self setNeedsUpdateConstraints];
         [self updateConstraintsIfNeeded];
     }
     return self;
 }
+
 
 - (void)setCellModel:(BBMapDownloadBaseItem *)cellModel {
     _cellModel = cellModel;
@@ -90,11 +92,18 @@
     // 给控件设置值
     for (NSInteger i = 0; i < totalCount; ++i) {
         UIButton *button = self.cityButtonList[i];
-        [button setTitle:@(i).stringValue forState:UIControlStateNormal];
+        button.tag = i;
+        MapModel *city = hotCityList[i];
+        [button setTitle:city.titleStr forState:UIControlStateNormal];
     }
     
     [self setNeedsUpdateConstraints];
     [self updateConstraintsIfNeeded];
+}
+
+- (void)buttonClick:(UIButton *)sender {
+
+    [self.cellModel.actionTarget invoke:NSStringFromSelector(self.cellModel.actionSelector) args:@(sender.tag), self, nil];
 }
 
 
@@ -185,8 +194,8 @@
             
             // 如果设置了高度，则高度不再自适应
             BBMapDownloadHotCityTableViewCellModel *cm = (BBMapDownloadHotCityTableViewCellModel *)self.cellModel;
-            if (cm.buttonHeight > 0) {
-                [constraints addObject:[NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:cm.buttonHeight]];
+            if (cm.itemHeight > 0) {
+                [constraints addObject:[NSLayoutConstraint constraintWithItem:btn attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:cm.itemHeight]];
             }
             
             previousBtn = btn;
@@ -213,6 +222,7 @@
     btn.titleLabel.font = BBMapDownloadFontWithSize(BBMapDownloadDefaultFontSize);
     btn.layer.borderWidth = 1.0;
     btn.layer.masksToBounds = YES;
+    [btn addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     return btn;
 }
 

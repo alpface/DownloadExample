@@ -8,21 +8,27 @@
 
 #import "BBTableViewSection.h"
 
+@interface BBTableViewSection ()
+
+@property (nonatomic, strong, readwrite) NSMutableArray<id<CellModelProtocol>> *items;
+
+@end
+
 @implementation BBTableViewSection
 
-- (instancetype)initWithItems:(NSArray<BBMapDownloadBaseItem *> *)items
+- (instancetype)initWithItems:(NSMutableArray<id<CellModelProtocol>> *)items
                   headerTitle:(NSAttributedString *)headerTitle
                   footerTitle:(NSAttributedString *)footerTitle {
     if (self = [super init]) {
         if (!items.count) {
             return nil;
         }
-        self.items = items.copy;
+        self.items = items;
         self.headerTitle = headerTitle;
         self.footerTitle = footerTitle;
     }
     return self;
 }
 
-
 @end
+

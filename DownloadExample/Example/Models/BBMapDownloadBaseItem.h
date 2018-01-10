@@ -17,13 +17,26 @@ typedef NS_ENUM(NSInteger, BBSettingsCellDisclosureType) {
 @interface BBMapDownloadBaseItem : BaseCellModel
 
 @property (nonatomic) Class cellClass;
+@property (nonatomic, assign, readonly) SEL actionSelector;
+@property (nonatomic, weak, readonly) id actionTarget;
+
+- (instancetype)initWithHeight:(CGFloat)height target:(id)target action:(SEL)actionSelector;
 
 @end
 
 @interface BBMapDownloadHotCityTableViewCellModel : BBMapDownloadBaseItem
 
 /// 每个button的高度
-@property (nonatomic, assign) CGFloat buttonHeight;
+@property (nonatomic, assign) CGFloat itemHeight;
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithHeight:(CGFloat)height target:(id)target action:(SEL)actionSelector NS_UNAVAILABLE;
+- (instancetype)initWithHeight:(CGFloat)height NS_UNAVAILABLE;
+/// 指定初始化方法
+/// @param itemTarget button 点击事件监听者
+/// @param itemAction 点击button的响应方法，最多有两个参数，第一个参数为当前item的index，第二个参数为当前所在的Cell
+/// @return 初始化对象 BBMapDownloadHotCityTableViewCellModel
+- (instancetype)initWithItemTarget:(id)itemTarget itemAction:(SEL)itemAction NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -47,8 +60,6 @@ typedef NS_ENUM(NSInteger, BBSettingsCellDisclosureType) {
 
 @property (nonatomic, assign, readwrite) BOOL isSwitchOn;
 
-@property (nonatomic, assign) SEL actionSelector;
-@property (nonatomic, weak) id actionTarget;
 
 + (instancetype)switchCellForSel:(SEL)sel
                           target:(id)target

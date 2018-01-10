@@ -1,10 +1,3 @@
-//
-//  NewDownloadModule.h
-//  DownloadExample
-//
-//  Created by xiaoyuan on 2018/1/8.
-//  Copyright © 2018年 xiaoyuan. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 
@@ -27,6 +20,7 @@
 //{欧洲:[{icon:"Country.png, title:England, map:[mapmod,mapmod,...]},...],亚洲:[]...}
 @property(strong, nonatomic) NSMutableArray *continentNameArr;//每个元素都是洲名称
 @property(strong, nonatomic) NSMutableArray *allMapArray;
+@property(strong, nonatomic) NSMutableArray *needToUpdateMap;//可以更新的地图包数组
 
 + (NewDownloadModule *)getInstance;
 @end

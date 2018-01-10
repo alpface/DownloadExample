@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0981EAF2005A0F000DF4503 /* RuntimeInvoker.m in Sources */ = {isa = PBXBuildFile; fileRef = D0981EAE2005A0F000DF4503 /* RuntimeInvoker.m */; };
+		D0981EB22005A26E00DF4503 /* MapDownloadConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D0981EB02005A26E00DF4503 /* MapDownloadConfiguration.m */; };
+		D0981EB42005A52500DF4503 /* BBBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0981EB32005A52500DF4503 /* BBBaseTableViewCell.m */; };
 		D09EE5322003688100E0C3C4 /* BBMapDownloadNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09EE5302003688000E0C3C4 /* BBMapDownloadNodeViewController.m */; };
 		D09EE5352003691400E0C3C4 /* BBMapDownloadSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = D09EE5332003691300E0C3C4 /* BBMapDownloadSearchView.m */; };
 		D09EE53E200391A100E0C3C4 /* Download_level0_Model.m in Sources */ = {isa = PBXBuildFile; fileRef = D09EE537200391A100E0C3C4 /* Download_level0_Model.m */; };
@@ -255,6 +258,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D0981EAD2005A0EF00DF4503 /* RuntimeInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RuntimeInvoker.h; path = ../../../../../../Desktop/work/trunk/IOSNewMapDownload/nav/public/util/RuntimeInvoker.h; sourceTree = "<group>"; };
+		D0981EAE2005A0F000DF4503 /* RuntimeInvoker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RuntimeInvoker.m; path = ../../../../../../Desktop/work/trunk/IOSNewMapDownload/nav/public/util/RuntimeInvoker.m; sourceTree = "<group>"; };
+		D0981EB02005A26E00DF4503 /* MapDownloadConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapDownloadConfiguration.m; sourceTree = "<group>"; };
+		D0981EB12005A26E00DF4503 /* MapDownloadConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapDownloadConfiguration.h; sourceTree = "<group>"; };
+		D0981EB32005A52500DF4503 /* BBBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBBaseTableViewCell.m; sourceTree = "<group>"; };
 		D09EE5302003688000E0C3C4 /* BBMapDownloadNodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapDownloadNodeViewController.m; sourceTree = "<group>"; };
 		D09EE5312003688100E0C3C4 /* BBMapDownloadNodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMapDownloadNodeViewController.h; sourceTree = "<group>"; };
 		D09EE5332003691300E0C3C4 /* BBMapDownloadSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMapDownloadSearchView.m; sourceTree = "<group>"; };
@@ -820,6 +828,8 @@
 		D2B23DE6200072D500329C6C /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				D0981EB12005A26E00DF4503 /* MapDownloadConfiguration.h */,
+				D0981EB02005A26E00DF4503 /* MapDownloadConfiguration.m */,
 				D2B23DE7200072D500329C6C /* BBMapDownloadConst.h */,
 			);
 			path = Other;
@@ -875,6 +885,7 @@
 				D09EE5342003691300E0C3C4 /* BBMapDownloadSearchView.h */,
 				D09EE5332003691300E0C3C4 /* BBMapDownloadSearchView.m */,
 				D2B23DF9200072D500329C6C /* BBBaseTableViewCell.h */,
+				D0981EB32005A52500DF4503 /* BBBaseTableViewCell.m */,
 				D2B23DFC200072D500329C6C /* BBMapDownloadBottomView.h */,
 				D2B23DFD200072D500329C6C /* BBMapDownloadBottomView.m */,
 				D2B23DFE200072D500329C6C /* BBMapDownloadHotCityTableViewCell.h */,
@@ -898,6 +909,8 @@
 		D2B23E1F2000738100329C6C /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				D0981EAD2005A0EF00DF4503 /* RuntimeInvoker.h */,
+				D0981EAE2005A0F000DF4503 /* RuntimeInvoker.m */,
 				D2B23E2D2000773D00329C6C /* UIView+ConstraintsExtend.h */,
 				D2B23E2C2000773D00329C6C /* UIView+ConstraintsExtend.m */,
 				D2B23E20200073BD00329C6C /* UIImage+Extend.h */,
@@ -1196,6 +1209,7 @@
 				D2B23E25200074A800329C6C /* UIScrollView+NoDataExtend.m in Sources */,
 				D2B23E0F200072D500329C6C /* BBDownloadManagementViewController.m in Sources */,
 				D2B23E22200073BD00329C6C /* UIImage+Extend.m in Sources */,
+				D0981EB22005A26E00DF4503 /* MapDownloadConfiguration.m in Sources */,
 				D2B23E14200072D500329C6C /* BBMapDownloadBottomView.m in Sources */,
 				D2B23E16200072D500329C6C /* BBMapDownloadNavigationView.m in Sources */,
 				D2B23E28200075F400329C6C /* UIViewController+XYExtensions.m in Sources */,
@@ -1208,10 +1222,12 @@
 				D09EE5352003691400E0C3C4 /* BBMapDownloadSearchView.m in Sources */,
 				D2B23E1A200072D500329C6C /* BBMapDownloadTableViewCell.m in Sources */,
 				D2B23E2B200076E900329C6C /* MapModel.m in Sources */,
+				D0981EB42005A52500DF4503 /* BBBaseTableViewCell.m in Sources */,
 				D2B23E0C200072D500329C6C /* BBMapDownloadBaseItem.m in Sources */,
 				D2B23DD120006EE600329C6C /* AppDelegate.m in Sources */,
 				D2B23E11200072D500329C6C /* BBMapDownloadBaseViewController.m in Sources */,
 				D09EE544200391F200E0C3C4 /* BBMapDownloadNodeTableViewCell.m in Sources */,
+				D0981EAF2005A0F000DF4503 /* RuntimeInvoker.m in Sources */,
 				D2B23E0E200072D500329C6C /* BBAllMapViewController.m in Sources */,
 				D09EE540200391A100E0C3C4 /* DownloadNode.m in Sources */,
 				D09EE5322003688100E0C3C4 /* BBMapDownloadNodeViewController.m in Sources */,

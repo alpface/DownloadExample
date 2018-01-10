@@ -13,6 +13,7 @@
 #import "Download_level1_Model.h"
 #import "BBMapDownloadNodeTableViewCell.h"
 #import "BBMapDownloadBaseItem.h"
+#import "Download_level2_Model.h"
 #import "DownloadNode.h"
 
 @interface BBMapDownloadNodeViewController ()
@@ -50,9 +51,14 @@
         title = nodeData.continentName;
     }
     
-    else if(node.type == 1){
+    else if (node.type == 1){
         Download_level1_Model *nodeData = node.nodeData;
         title = nodeData.countryName;
+    }
+    else if (node.type == 2) {
+        Download_level2_Model *nodeData = node.nodeData;
+        MapModel *map = nodeData.model;
+        title = map.titleStr;
     }
     
     self.navTitle = [[NSAttributedString alloc] initWithString:title];
@@ -65,30 +71,47 @@
 }
 
 - (BBTableViewSection *)section_1 {
+    
+    MapModel *(^getMapModelByNode)(DownloadNode *node) = ^(DownloadNode *node) {
+        Download_level2_Model *m = node.nodeData;
+        MapModel *city = nil;
+        if ([m isKindOfClass:[Download_level2_Model class]]) {
+            city = m.model;
+        }
+        return city;
+    };
     NSMutableArray *items = @[].mutableCopy;
     for (NSInteger i = 0; i < self.node.sonNodes.count; i++) {
         DownloadNode *node = self.node.sonNodes[i];
         if (node.sonNodes.count > 1) {
             // 还有子节点，还可以往下跳
-            BBMapDownloadNodeTableViewCellModel *model = [[BBMapDownloadNodeTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
+            BBMapDownloadNodeTableViewCellModel *model = [[BBMapDownloadNodeTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight target:self action:@selector(clickNodeAction:)];
             model.model = node;
             model.cellClass = [BBMapDownloadNodeTableViewCell class];
             [items addObject:model];
         }
         else if (node.sonNodes.count == 1) {
             // 类似韩国那种的，只有一个城市，显示BBMapDownloadTableViewCell，点击时不能往下跳
-            BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
-            model.model = node.sonNodes.firstObject;
-            model.cellClass = [BBMapDownloadTableViewCell class];
-            [items addObject:model];
+            DownloadNode *node1 = node.sonNodes.firstObject;
+            MapModel *city = getMapModelByNode(node1);
+            if (city) {
+                BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
+                model.model = city;
+                model.cellClass = [BBMapDownloadTableViewCell class];
+                [items addObject:model];
+            }
         }
         else {
             // 子节点都没有，就是城市啦
             // 类似韩国那种的，只有一个城市，显示BBMapDownloadTableViewCell，点击时不能往下跳
-            BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
-            model.model = node;
-            model.cellClass = [BBMapDownloadTableViewCell class];
-            [items addObject:model];
+            MapModel *city = getMapModelByNode(node);
+            if (city) {
+                BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
+                model.model = city;
+                model.cellClass = [BBMapDownloadTableViewCell class];
+                [items addObject:model];
+            }
+            
         }
         
     }
@@ -107,46 +130,15 @@
     return [super mapDownloadTableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
-////////////////////////////////////////////////////////////////////////
-#pragma mark - UITableViewDelegate
-////////////////////////////////////////////////////////////////////////
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    BBTableViewSection *section = self.sectionItems[indexPath.section];
-    BBMapDownloadBaseItem *item = section.items[indexPath.row];
-    if (item.cellClass == [BBMapDownloadNodeTableViewCell class]) {
-        [self showDownloadNodePageWithNode:item.model];
-    }
-    else if (item.class == [BBMapDownloadTableViewCell class]) {
-        
-    }
-    
-}
-
-
-- (NSAttributedString *)mapDownloadTableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.headerTitle;
-}
-
-- (NSAttributedString *)mapDownloadTableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.footerTitle;
-}
-
-- (BOOL)mapDownloadTableView:(UITableView *)tableView shouldDisplayHeaderInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.headerTitle != nil;
-}
-
-- (BOOL)mapDownloadTableView:(UITableView *)tableView shouldDisplayFooterInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.footerTitle != nil;
-}
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Actions
 ////////////////////////////////////////////////////////////////////////
+
+/// 点击节点
+- (void)clickNodeAction:(id<BBBaseTableViewCell>)cell {
+    [self showDownloadNodePageWithNode:cell.cellModel.model];
+}
 
 /// 查看子节点
 - (void)showDownloadNodePageWithNode:(DownloadNode *)node {

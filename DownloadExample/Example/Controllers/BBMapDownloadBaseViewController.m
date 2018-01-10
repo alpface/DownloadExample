@@ -197,30 +197,35 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (UITableViewCell *)mapDownloadTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BBMapDownloadBaseItem *item = self.sectionItems[indexPath.section].items[indexPath.row];
     
+    BBTableViewSection *section = self.sectionItems[indexPath.section];
+    section.sectionOfTable = indexPath.section;
+    BBMapDownloadBaseItem *item = self.sectionItems[indexPath.section].items[indexPath.row];
     id<BBBaseTableViewCell> cell = [tableView dequeueReusableCellWithIdentifier:[item.cellClass defaultIdentifier] forIndexPath:indexPath];
     
-    item.indexPathOfTableView = indexPath;
+    item.indexPathOfTable = indexPath;
     cell.cellModel = item;
     return (UITableViewCell *)cell;
 }
 
 - (BOOL)mapDownloadTableView:(UITableView *)tableView shouldDisplayHeaderInSection:(NSInteger)section {
-    return YES;
+    BBTableViewSection *sec = self.sectionItems[section];
+    return sec.items.count && sec.headerTitle != nil;
 }
 
 - (BOOL)mapDownloadTableView:(UITableView *)tableView shouldDisplayFooterInSection:(NSInteger)section {
-    return NO;
+    BBTableViewSection *sec = self.sectionItems[section];
+    return sec.items.count && sec.footerTitle != nil;
 }
 
 - (NSAttributedString *)mapDownloadTableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
-    return nil;
+    BBTableViewSection *sec = self.sectionItems[section];
+    return sec.headerTitle;
 }
+
 - (NSAttributedString *)mapDownloadTableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    
-    return nil;
+    BBTableViewSection *sec = self.sectionItems[section];
+    return sec.footerTitle;
 }
 
 

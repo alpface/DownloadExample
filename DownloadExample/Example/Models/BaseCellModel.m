@@ -14,7 +14,7 @@
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, assign) CGFloat estimatedHeight;
 @property (nonatomic, copy) void (^heightChangeCallBack)(CGFloat changeHeight, NSIndexPath *indexPathOfView);
-@property (nonatomic, strong) NSIndexPath *indexPathOfTableView;
+@property (nonatomic, strong) NSIndexPath *indexPathOfTable;
 
 @end
 
@@ -36,13 +36,14 @@
     _height = height;
     _estimatedHeight = height;
     if (self.heightChangeCallBack) {
-        self.heightChangeCallBack(height, self.indexPathOfTableView);
+        self.heightChangeCallBack(height, self.indexPathOfTable);
     }
 }
 
 - (CGFloat)height {
-     _height = MAX(0, _height) ?: _estimatedHeight;
+    _height = MAX(0, _height) ?: _estimatedHeight;
     return MAX(_height, 0);
 }
 
 @end
+

@@ -1,10 +1,3 @@
-//
-//  NewDownloadModule.m
-//  DownloadExample
-//
-//  Created by xiaoyuan on 2018/1/8.
-//  Copyright © 2018年 xiaoyuan. All rights reserved.
-//
 
 #import "NewDownloadModule.h"
 #import "DownloadNode.h"
@@ -29,6 +22,7 @@ static NewDownloadModule *_instance = nil;
         _instance.continentNameArr      = [NSMutableArray array];
         _instance.downloadFailArray     = [NSMutableArray array];
         _instance.tempDownloadedArray   = [NSMutableArray array];
+        _instance.needToUpdateMap   = [NSMutableArray array];
         _instance.mapDic                = [NSMutableDictionary dictionaryWithCapacity:0];
         
         [_instance initData];

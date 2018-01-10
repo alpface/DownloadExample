@@ -167,8 +167,5 @@
     return _iconView;
 }
 
-+ (NSString *)defaultIdentifier {
-    return [NSStringFromClass([self class]) stringByAppendingString:NSStringFromSelector(_cmd)];
-}
 
 @end

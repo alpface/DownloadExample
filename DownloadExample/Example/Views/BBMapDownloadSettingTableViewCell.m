@@ -9,6 +9,7 @@
 #import "BBMapDownloadSettingTableViewCell.h"
 #import "BBMapDownloadBaseItem.h"
 #import "BBMapDownloadConst.h"
+#import "RuntimeInvoker.h"
 
 @interface BBMapDownloadSettingTableViewCell ()
 
@@ -75,12 +76,17 @@
     [self.disclosureSwitch setOn:cellModel.isSwitchOn animated:YES];
     self.iconView.image = cellModel.icon;
     
-    [self.disclosureSwitch removeTarget:cellModel.actionTarget action:cellModel.actionSelector forControlEvents:UIControlEventValueChanged];
-    if (cellModel.disclosureType == BBSettingsCellDisclosureTypeSwitch) {
-        [self.disclosureSwitch addTarget:cellModel.actionTarget action:cellModel.actionSelector forControlEvents:UIControlEventValueChanged];
-    }
-    
     [self updateConstraintsH];
+}
+
+- (void)disclosureSwitchValueChanged:(UISwitch *)sw {
+    if (self.cellModel.disclosureType == BBSettingsCellDisclosureTypeSwitch) {
+        self.cellModel.isSwitchOn = sw.isOn;
+        if (!self.cellModel.actionTarget || !self.cellModel.actionSelector) {
+            return;
+        }
+        [self.cellModel.actionTarget invoke:NSStringFromSelector(self.cellModel.actionSelector) args:sw, nil];
+    }
 }
 
 /// 更新水平约束
@@ -135,24 +141,10 @@
     [self.nextResponder touchesEnded:touches withEvent:event];
     
     if (self.cellModel.disclosureType != BBSettingsCellDisclosureTypeSwitch) {
-        if (!self.cellModel.actionTarget || !self.cellModel.actionSelector) {
-            return;
-        }
-        SEL selector = self.cellModel.actionSelector;
-        NSString *selString = NSStringFromSelector(selector);
-        NSInteger strCount = [selString length] - [[selString stringByReplacingOccurrencesOfString:@":" withString:@""] length];
-        NSAssert(strCount <= 1, @"最多只能有一个参数");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[self.cellModel.actionTarget class] instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:self.cellModel.actionTarget];
-        
-        if (strCount > 0) {
-            id target = self;
-            [invocation setArgument:&target atIndex:2];
-        }
-        [invocation invoke];
+        [self.cellModel.actionTarget invoke:NSStringFromSelector(self.cellModel.actionSelector) args:self, nil];
     }
 }
+
 
 - (BOOL)shouldDisplayTitleLabel {
     return self.titleLabel.text || self.titleLabel.attributedText;
@@ -200,6 +192,7 @@
         _disclosureSwitch = disclosureSwitch;
         disclosureSwitch.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:disclosureSwitch];
+        [disclosureSwitch addTarget:self action:@selector(disclosureSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
     }
     return _disclosureSwitch;
 }

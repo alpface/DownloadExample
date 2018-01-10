@@ -13,11 +13,12 @@
 #import "BBMapDownloadNetworkStateView.h"
 #import "BBMapDownloadBottomView.h"
 #import "BBMapDownloadSettingTableViewCell.h"
+#import "NewDownloadModule.h"
+#import "MapDownloadConfiguration.h"
 
 @interface BBDownloadManagementViewController () <NoDataPlaceholderDelegate, BBMapDownloadBottomViewDelegate>
 
 @property (nonatomic, strong) BBMapDownloadNetworkStateView *networkStateView;
-@property (nonatomic, assign) BOOL shouldDiaplaySectionHeader;
 @property (nonatomic, strong) BBMapDownloadBottomView *bottomView;
 
 @end
@@ -73,10 +74,19 @@
 
 /// 下载中的
 - (BBTableViewSection *)downloadingSection {
+    NSMutableArray *downloadingArray = [NewDownloadModule getInstance].downloadingArray;
+#if DEBUG
+    if (!downloadingArray.count) {
+        downloadingArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(3, 6)]].mutableCopy;
+    }
+#endif
     NSMutableArray *items = @[].mutableCopy;
-    for (NSInteger i = 0; i < 10; i++) {
-       BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
+    for (MapModel *ctiy in downloadingArray) {
+       BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight
+                                                                                                 target:self
+                                                                                                 action:@selector(clickDownloadAction:)];
         model.cellClass = [BBMapDownloadTableViewCell class];
+        model.model = ctiy;
         [items addObject:model];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"下载中"] footerTitle:nil];
@@ -85,10 +95,19 @@
 
 /// 待更新
 - (BBTableViewSection *)downloadUpdateSection {
+    NSMutableArray *updateArray = [NewDownloadModule getInstance].needToUpdateMap;
+#if DEBUG
+    if (!updateArray.count) {
+        updateArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)]].mutableCopy;
+    }
+#endif
     NSMutableArray *items = @[].mutableCopy;
-    for (NSInteger i = 0; i < 10; i++) {
-        BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
+    for (MapModel *city in updateArray) {
+        BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight
+                                                                                                  target:self
+                                                                                                  action:@selector(clickDownloadAction:)];
         model.cellClass = [BBMapDownloadTableViewCell class];
+        model.model = city;
         [items addObject:model];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"待更新"] footerTitle:nil];
@@ -97,10 +116,19 @@
 
 /// 已下载
 - (BBTableViewSection *)downloadedSection {
+    NSMutableArray *downloadedArray = [NewDownloadModule getInstance].downloadedArray;
+#if DEBUG
+    if (!downloadedArray.count) {
+        downloadedArray = [[NewDownloadModule getInstance].allMapArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(6, 8)]].mutableCopy;
+    }
+#endif
     NSMutableArray *items = @[].mutableCopy;
-    for (NSInteger i = 0; i < 10; i++) {
-        BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight];
+    for (MapModel *city in downloadedArray) {
+        BBMapDownloadTableViewCellModel *model = [[BBMapDownloadTableViewCellModel alloc] initWithHeight:BBMapDownloadDownloadCellHeight
+                                                                                                  target:self
+                                                                                                  action:@selector(clickDownloadAction:)];
         model.cellClass = [BBMapDownloadTableViewCell class];
+        model.model = city;
         [items addObject:model];
     }
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:[[NSAttributedString alloc] initWithString:@"已下载"] footerTitle:nil];
@@ -110,16 +138,24 @@
 /// WiFi下自动下载
 - (BBTableViewSection *)settingSection {
     NSMutableArray *items = @[].mutableCopy;
-    BBSettingsCellModel *item = [BBSettingsCellModel switchCellForSel:@selector(applyWifiAutoSwitch:) target:self attributedTitle:[[NSAttributedString alloc] initWithString:@"WIFI下自动更新"] icon:nil on:YES height:40.0];
+    BBSettingsCellModel *item = [BBSettingsCellModel switchCellForSel:@selector(applyWifiAutoSwitch:) target:self attributedTitle:[[NSAttributedString alloc] initWithString:@"WIFI下自动更新"] icon:nil on:[MapDownloadConfiguration shouldAutoDownloadInWifi].boolValue height:40.0];
     item.cellClass = [BBMapDownloadSettingTableViewCell class];
     [items addObject:item];
     BBTableViewSection *section = [[BBTableViewSection alloc] initWithItems:items headerTitle:nil footerTitle:nil];
     return section;
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark - Actions
+////////////////////////////////////////////////////////////////////////
 - (void)applyWifiAutoSwitch:(UISwitch *)sw {
+    [MapDownloadConfiguration setShouldAutoDownloadInWifi:@(sw.isOn)];
+}
+
+- (void)clickDownloadAction:(id<BBBaseTableViewCell>)cell {
     
 }
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - 重写父类方法
 ////////////////////////////////////////////////////////////////////////
@@ -128,26 +164,6 @@
 - (UITableViewCell *)mapDownloadTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return [super mapDownloadTableView:tableView cellForRowAtIndexPath:indexPath];
-}
-
-- (NSAttributedString *)mapDownloadTableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.headerTitle;
-}
-
-- (BOOL)mapDownloadTableView:(UITableView *)tableView shouldDisplayHeaderInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.headerTitle != nil && self.shouldDiaplaySectionHeader;
-}
-
-- (NSAttributedString *)mapDownloadTableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.footerTitle;
-}
-
-- (BOOL)mapDownloadTableView:(UITableView *)tableView shouldDisplayFooterInSection:(NSInteger)section {
-    BBTableViewSection *sec = self.sectionItems[section];
-    return sec.footerTitle != nil && self.shouldDiaplaySectionHeader;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -170,7 +186,6 @@
 }
 
 - (void)noDataPlaceholderWillAppear:(UIScrollView *)scrollView {
-    self.shouldDiaplaySectionHeader = NO;
     self.networkStateView.hidden = YES;
     self.tableViewTopConstraint.constant = 0.0;
     self.bottomView.hidden = YES;
@@ -181,7 +196,6 @@
 
 - (void)noDataPlaceholderDidDisappear:(UIScrollView *)scrollView {
     self.networkStateView.attributedText = [[NSAttributedString alloc] initWithString:@"当前为Wi-Fi网络，切换至运营商流量会自动暂停下载!"];
-    self.shouldDiaplaySectionHeader = YES;
     self.networkStateView.hidden = NO;
     self.tableViewTopConstraint.constant = BBMapDownloadDownloadNetworkStateViewHeight;
     self.bottomView.hidden = NO;

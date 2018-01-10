@@ -10,7 +10,9 @@
 #import "BBMapDownloadConst.h"
 #import "BBMapDownloadBaseItem.h"
 #import "Download_level2_Model.h"
-#import "DownloadNode.h"
+
+static CGFloat const BBMapDownloadTableViewCellIconWidth = 35.0;
+static CGFloat const BBMapDownloadTableViewCellIconHeight = 24.0;
 
 @interface BBMapDownloadTableViewCell ()
 
@@ -23,7 +25,6 @@
 @property (nonatomic, strong) UILabel *tourSizeLabel;
 @property (nonatomic, strong) UIView *bottomeLineView;
 @property (nonatomic, strong) UILabel *totalStateLabel;
-
 @property (nonatomic, strong) BBMapDownloadBaseItem *cellModel;
 @property (nonatomic, strong) MapModel *mapModel;
 
@@ -75,22 +76,15 @@
 - (void)setCellModel:(BBMapDownloadBaseItem *)cellModel {
     _cellModel = cellModel;
     
-    if ([cellModel.model isKindOfClass:[MapModel class]]) {
-        self.mapModel = cellModel.model;
-    }
-    else if ([cellModel.model isKindOfClass:[DownloadNode class]]) {
-        DownloadNode *node = (DownloadNode *)cellModel.model;
-        Download_level2_Model *m = node.nodeData;
-        if ([m isKindOfClass:[Download_level2_Model class]]) {
-            self.mapModel = m.model;
-        }
-    }
-    
+    self.mapModel = cellModel.model;
 }
 
 - (void)setMapModel:(MapModel *)mapModel {
     _mapModel = mapModel;
-    if ([mapModel.countryName isEqualToString:mapModel.titleStr]) {
+    if ([mapModel.mapId isEqualToString:@"-1"]) {
+        self.titleLabel.text = [NSString stringWithFormat:@"%@", mapModel.titleStr];
+    }
+    else if ([mapModel.countryName isEqualToString:mapModel.titleStr]) {
         self.titleLabel.text = [NSString stringWithFormat:@"%@", mapModel.countryName];
     }
     else{
@@ -99,6 +93,8 @@
     
     self.descLabel.text = _mapModel.cityDescriptionStr;
     self.iconView.image = [UIImage imageNamed:_mapModel.imageStr];
+    [self updateIconViewSize];
+    
 
 }
 
@@ -106,8 +102,8 @@
     
     [self.totalStateLabel setContentCompressionResistancePriority:998.0 forAxis:UILayoutConstraintAxisHorizontal];
     
-    NSLayoutConstraint *iconWidth = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:35.0];
-    NSLayoutConstraint *iconHeight = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:24.0];
+    NSLayoutConstraint *iconWidth = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:BBMapDownloadTableViewCellIconWidth];
+    NSLayoutConstraint *iconHeight = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:BBMapDownloadTableViewCellIconHeight];
      NSLayoutConstraint *iconCenterY = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0];
     NSLayoutConstraint *iconLeft = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:BBMapDownloadViewGlobleMargin];
     [NSLayoutConstraint activateConstraints:@[iconWidth, iconHeight, iconLeft, iconCenterY]];
@@ -152,6 +148,33 @@
     [NSLayoutConstraint activateConstraints:bottomeLineViewConstrints];
     
 }
+
+/// 基础包时icon时正方形，其他是长方形
+- (void)updateIconViewSize {
+    NSLayoutConstraint *height = nil;
+    NSLayoutConstraint *width = nil;
+    for (NSLayoutConstraint *c in self.iconView.constraints) {
+        if ([c.firstItem isEqual:self.iconView]) {
+            if (c.firstAttribute == NSLayoutAttributeWidth) {
+                width = c;
+            }
+            if (c.firstAttribute == NSLayoutAttributeHeight) {
+                height = c;
+            }
+        }
+    }
+    if (self.isSquareForIconView) {
+        height.constant = width.constant;
+    }
+    else {
+        height.constant = BBMapDownloadTableViewCellIconHeight;
+    }
+}
+
+- (BOOL)isSquareForIconView {
+    return [self.mapModel.mapId isEqual:@"-1"];
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Lazy
@@ -257,8 +280,5 @@
     return _totalStateLabel;
 }
 
-+ (NSString *)defaultIdentifier {
-    return [NSStringFromClass([self class]) stringByAppendingString:NSStringFromSelector(_cmd)];
-}
 
 @end

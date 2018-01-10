@@ -22,8 +22,8 @@
 - (void (^)(CGFloat newHeight, NSIndexPath *indexPathOfView))heightChangeCallBack;
 - (void)setHeightChangeCallBack:(void (^)(CGFloat newHeight, NSIndexPath *indexPathOfView))heightChangeCallBack;
 
-- (NSIndexPath *)indexPathOfTableView;
-- (void)setIndexPathOfTableView:(NSIndexPath *)indexPathOfTableView;
+- (NSIndexPath *)indexPathOfTable;
+- (void)setIndexPathOfTable:(NSIndexPath *)indexPathOfTable;
 
 @end
 
@@ -33,3 +33,4 @@
 - (instancetype)initWithHeight:(CGFloat)height;
 
 @end
+

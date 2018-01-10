@@ -8,7 +8,10 @@
 
 #import "BBBaseTableViewCell.h"
 
+@class MapModel;
 
 @interface BBMapDownloadHotCityTableViewCell : UITableViewCell <BBBaseTableViewCell>
+
+@property (nonatomic, strong, readonly) NSArray<MapModel *> *hotCityList;
 
 @end

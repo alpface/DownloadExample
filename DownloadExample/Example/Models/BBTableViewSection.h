@@ -13,10 +13,12 @@
 
 @property (nonatomic, copy) NSAttributedString *headerTitle;
 @property (nonatomic, copy) NSAttributedString *footerTitle;
-@property (nonatomic, strong) NSArray<BBMapDownloadBaseItem *> *items;
+@property (nonatomic, strong, readonly) NSMutableArray<id<CellModelProtocol>> *items;
+@property (nonatomic, assign) NSInteger sectionOfTable;
 
-- (instancetype)initWithItems:(NSArray<BBMapDownloadBaseItem *> *)items
+- (instancetype)initWithItems:(NSMutableArray<id<CellModelProtocol>> *)items
                   headerTitle:(NSAttributedString *)headerTitle
                   footerTitle:(NSAttributedString *)footerTitle;
 
 @end
+

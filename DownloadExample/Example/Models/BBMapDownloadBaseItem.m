@@ -8,16 +8,46 @@
 
 #import "BBMapDownloadBaseItem.h"
 
+@interface BBMapDownloadBaseItem ()
+
+@property (nonatomic, assign, readwrite) SEL actionSelector;
+@property (nonatomic, weak, readwrite) id actionTarget;
+
+@end
+
 @implementation BBMapDownloadBaseItem
 
+- (instancetype)initWithHeight:(CGFloat)height target:(id)target action:(SEL)actionSelector {
+    if (self = [super initWithHeight:height]) {
+        self.actionTarget = target;
+        self.actionSelector = actionSelector;
+    }
+    return self;
+}
+
 - (void)setCellClass:(Class)cellClass {
-    NSAssert(cellClass != NULL && [cellClass.superclass isEqual:[UITableViewCell class]], @"cellClass 必须是UITableViewCell或其子类class");
+    NSAssert(cellClass != NULL && [cellClass isSubclassOfClass:[UITableViewCell class]], @"cellClass 必须是UITableViewCell或其子类class");
     _cellClass = cellClass;
 }
 
 @end
 
 @implementation BBMapDownloadHotCityTableViewCellModel
+
+- (instancetype)init {
+    NSAssert(NO, nil);
+    @throw nil;
+}
+
+- (instancetype)initWithHeight:(CGFloat)height target:(id)target action:(SEL)actionSelector {
+    NSAssert(NO, nil);
+    @throw nil;
+}
+
+
+- (instancetype)initWithItemTarget:(id)itemTarget itemAction:(SEL)itemAction {
+    return [super initWithHeight:0 target:itemTarget action:itemAction];
+}
 
 @end
 
@@ -54,7 +84,9 @@
                                              disclosureType:BBSettingsCellDisclosureTypeSwitch
                                              disclosureText:nil
                                                  isSwitchOn:isOn
-                                                     height:height];
+                                                     height:height
+                                                     target:target
+                                                     action:sel];
 
     item.actionSelector = sel;
     item.actionTarget = target;
@@ -74,9 +106,9 @@
                                             disclosureType:BBSettingsCellDisclosureTypeNormal
                                             disclosureText:nil
                                                 isSwitchOn:NO
-                                                     height:height];
-    item.actionSelector = sel;
-    item.actionTarget = target;
+                                                     height:height
+                                                     target:target
+                                                     action:sel];
     
     return item;
 }
@@ -93,10 +125,9 @@
                                              disclosureType:disclosureType
                                              disclosureText:disclosureAttributedText
                                                  isSwitchOn:NO
-                                                     height:height];
-    item.actionSelector = sel;
-    item.actionTarget = target;
-    
+                                                     height:height
+                                                     target:target
+                                                     action:sel];
     return item;
 }
 
@@ -105,8 +136,10 @@
                disclosureType:(BBSettingsCellDisclosureType)disclosureType
                disclosureText:(NSAttributedString *)disclosureText
                    isSwitchOn:(BOOL)isSwitchOn
-                       height:(CGFloat)height {
-    self = [super initWithHeight:height];
+                       height:(CGFloat)height
+                       target:(id)target
+                       action:(SEL)actionSelector {
+    self = [super initWithHeight:height target:target action:actionSelector];
     if (self) {
         self.cellClass = NSClassFromString(@"BBMapDownloadSettingTableViewCell");
         self.disclosureType = disclosureType;

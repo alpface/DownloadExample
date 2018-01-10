@@ -19,4 +19,7 @@
 
 @end
 
+@interface BBBaseTableViewCell : UITableViewCell <BBBaseTableViewCell>
+
+@end
 
