@@ -20,9 +20,9 @@
 - (BBTableViewSection *)getSectionWithIndex:(NSInteger)index;
 - (id<CellModelProtocol>)getCellModelWithIndexPath:(NSIndexPath *)indexPath;
 - (void)updateSectionOfTableViewSection:(BBTableViewSection *)section;
-//- (void)moveCellModelsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths fromSection:(BBTableViewSection *)fromSection toSection:(BBTableViewSection *)toSection;
 - (void)moveCellModelAtIndexPath:(NSIndexPath *)indexPath toSection:(BBTableViewSection *)toSection;
 - (void)moveCellModel:(id<CellModelProtocol>)cellModel toSection:(BBTableViewSection *)toSection;
+- (void)moveCellModels:(NSMutableArray<id<CellModelProtocol>> *)cellModels toSection:(BBTableViewSection *)toSection;
 - (void)removeCellModelsInSectionsAtIndexPath:(NSArray<NSIndexPath *> *)indexPaths;
 
 @end
