@@ -134,6 +134,17 @@
     
 }
 
+- (void)pageScrollView:(BBPageScrollView *)pageScrollView
+willChangePageFromPageIndex:(NSInteger)previousIndex
+          newPageIndex:(NSInteger)newPageIndex {
+    
+    UIViewController *vc1 = [self.scrollView getControllerOfIndex:newPageIndex];
+    UIViewController *vc2 = [self.scrollView getControllerOfIndex:previousIndex];
+    [vc1 beginAppearanceTransition:YES animated:YES];
+    [vc2 beginAppearanceTransition:NO animated:YES];
+    [vc2 endAppearanceTransition];
+}
+
 - (BOOL)shouldAnimatedInPageScrollView:(BBPageScrollView *)pageScrollView {
     return YES;
 }
@@ -147,4 +158,14 @@
     [self.scrollView willRotateToInterfaceOrientation];
 }
 
+
+- (void)beginAppearanceTransition:(BOOL)isAppearing animated:(BOOL)animated {
+    [super beginAppearanceTransition:isAppearing animated:animated];
+    [self.scrollView.displayViewController beginAppearanceTransition:isAppearing animated:animated];
+}
+
+- (void)endAppearanceTransition {
+    [super endAppearanceTransition];
+    [self.scrollView.displayViewController endAppearanceTransition];
+}
 @end

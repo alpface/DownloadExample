@@ -21,10 +21,12 @@
 @property (nonatomic, weak) id<BBPageScrollViewDataSource> pageDataSource;
 
 /// 当前页的索引, 当上一页或下一页的50%以上可见时，会更新currentPageIndex
-@property (nonatomic, assign, readonly) NSInteger currentPageIndex;
+/// @note setCurrentPageIndex: 最好在-addViewController:之后执行，不然会影响代理方法:willChangePageFromPageIndex的调用次数
+@property (nonatomic, assign) NSInteger currentPageIndex;
 
 /// 当前显示的viewController
 - (UIViewController *)displayViewController;
+- (UIViewController *)getControllerOfIndex:(NSInteger)index;
 
 // 页面的数量
 @property (nonatomic, assign, readonly) NSInteger numberOfPages;
@@ -58,9 +60,19 @@
 /// @param pageScrollView 当前所在BBPageScrollView对象
 /// @param currentPageIndex 当前页面索引
 /// @param numberOfPages scrollView添加的页面数量
+/// @note 当每次执行-addViewController:调用，或currentPageIndex改变时调用
 - (void)pageScrollView:(BBPageScrollView *)pageScrollView
          didChangePage:(NSInteger)currentPageIndex
          numberOfPages:(NSInteger)numberOfPages;
+
+/// 即将进入新的页面或首次即将显示页面时调用
+/// @param pageScrollView 当前所在BBPageScrollView对象
+/// @param previousIndex 上次显示的页面索引
+/// @param newPageIndex 即将显示的页面索引
+/// @note 只有首次显示或当currentIndex改变时，才会被执行，且只会被执行一次
+- (void)pageScrollView:(BBPageScrollView *)pageScrollView
+willChangePageFromPageIndex:(NSInteger)previousIndex
+          newPageIndex:(NSInteger)newPageIndex;
 
 /// 滚动页面时是否需要动画
 - (BOOL)shouldAnimatedInPageScrollView:(BBPageScrollView *)pageScrollView;
@@ -82,3 +94,4 @@
 - (UIPageControl *)pageControlForPageScrollView:(BBPageScrollView *)pageScrollView;
 
 @end
+

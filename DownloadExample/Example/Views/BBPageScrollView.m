@@ -9,7 +9,7 @@
 #import "BBPageScrollView.h"
 
 @implementation BBPageScrollView {
-    NSMutableArray * _controllers;
+    NSMutableArray<UIViewController *> * _controllers;
     NSInteger _currentPageIndex;
     // 是否即将旋转屏幕方向
     BOOL _isWillRotateToInterfaceOrientation;
@@ -73,7 +73,7 @@
     [_controllers addObject:controller];
     [self addSubview:controller.view];
     [self updateLayoutForPages:NO];
-    [self _notifyPageChanged];
+    self.currentPageIndex = _currentPageIndex;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -132,6 +132,7 @@
 
 /// 页面改变时执行，通知代理，并更新页面信息
 - (void)_notifyPageChanged {
+    
     // 必须设置pageDataSource，不然抛出异常
     if (!self.pageDataSource) {
         @throw [NSException exceptionWithName:@"BBPageScrollViewDataSourceException"
@@ -153,6 +154,14 @@
         _pageControl.numberOfPages = self.numberOfPages;
     }
     _isPageChanging = NO;
+}
+
+
+- (void)_willDisplayPage:(NSInteger)pageIndex {
+    NSInteger previousIndex = _currentPageIndex;
+    if (self.pageDelegate && [self.pageDelegate respondsToSelector:@selector(pageScrollView:willChangePageFromPageIndex:newPageIndex:)]) {
+        [self.pageDelegate pageScrollView:self willChangePageFromPageIndex:previousIndex newPageIndex:pageIndex];
+    }
 }
 
 - (void)showPage:(NSInteger)pageIndex animated:(BOOL)animated {
@@ -260,13 +269,18 @@
 }
 
 - (void)setCurrentPageIndex:(NSInteger)currentPageIndex {
+    // 防止执行-addViewController:时，如果currentPageIndex没有改变，保证只执行一次pageScrollView:willChangePageFromPageIndex:newPageIndex:
     if (_currentPageIndex == currentPageIndex) {
-        return;
+        if (_currentPageIndex != 0 || _controllers.count > 1) {
+            return;
+        }
     }
     [self willChangeValueForKey:NSStringFromSelector(@selector(currentPageIndex))];
+    [self _willDisplayPage:currentPageIndex];
     _currentPageIndex = currentPageIndex;
     [self _notifyPageChanged];
     [self didChangeValueForKey:NSStringFromSelector(@selector(currentPageIndex))];
+    
 }
 
 - (void)setFrame:(CGRect)frame {
@@ -280,6 +294,14 @@
     }
     return nil;
 }
+
+- (UIViewController *)getControllerOfIndex:(NSInteger)index {
+    if (index >= _controllers.count) {
+        return nil;
+    }
+    return [_controllers objectAtIndex:index];
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - InterfaceOrientation
@@ -340,3 +362,4 @@
     }
 }
 @end
+
