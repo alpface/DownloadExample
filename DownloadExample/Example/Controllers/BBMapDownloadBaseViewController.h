@@ -19,15 +19,18 @@
 - (BBTableViewSection *)getSectionWithIdentifier:(NSString *)identifier;
 - (BBTableViewSection *)getSectionWithIndex:(NSInteger)index;
 - (id<CellModelProtocol>)getCellModelWithIndexPath:(NSIndexPath *)indexPath;
+
 - (void)updateSectionOfTableViewSection:(BBTableViewSection *)section;
-- (void)moveCellModelAtIndexPath:(NSIndexPath *)indexPath toSection:(BBTableViewSection *)toSection;
+
 - (void)moveCellModel:(id<CellModelProtocol>)cellModel toSection:(BBTableViewSection *)toSection;
 - (void)moveCellModels:(NSMutableArray<id<CellModelProtocol>> *)cellModels toSection:(BBTableViewSection *)toSection;
-- (void)removeCellModelsInSectionsAtIndexPath:(NSArray<NSIndexPath *> *)indexPaths;
+- (void)deleteCellModelsInSectionsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths;
+- (void)appendCellModels:(NSArray<id<CellModelProtocol>> *)cellmodels toSection:(BBTableViewSection *)section;
+- (void)appendCellModel:(id<CellModelProtocol>)cellmodel toSection:(BBTableViewSection *)section;
 
 @end
 
-@interface BBMapDownloadBaseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BBMapDownloadViewController>
+@interface BBMapDownloadBaseViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
 @public
     BBMapDownloadNavigationView *_customNavView;
@@ -53,5 +56,9 @@
 - (NSAttributedString *)mapDownloadTableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section;
 - (UITableViewCell *)mapDownloadTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
+
+@end
+
+@interface BBMapDownloadBaseViewController (SectionItemsExtend) <BBMapDownloadViewController>
 
 @end

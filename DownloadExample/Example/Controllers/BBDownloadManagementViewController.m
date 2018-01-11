@@ -111,7 +111,7 @@
             BBTableViewSection *downloadedSection = [self getSectionWithIdentifier:NSStringFromSelector(@selector(createDownloadedSection))];
             if (!downloadIngSection) {
                 downloadIngSection = [BBTableViewSection createDownloadingSection];
-                downloadIngSection.sectionOfTable = 0;
+                downloadIngSection.sectionOfTable = 1;
             }
             if (!downloadedSection) {
                 downloadedSection = [BBTableViewSection createDownloadedSection];
