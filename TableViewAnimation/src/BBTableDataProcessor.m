@@ -148,6 +148,33 @@
     return sec;
 }
 
+- (BBTableViewSection *)getSectionWithCellModel:(id<CellModelProtocol>)cm indexPathOfSection:(NSIndexPath * __autoreleasing *)idxPathOfSec {
+    if (!cm) {
+        return nil;
+    }
+    __block BBTableViewSection *sec = nil;
+    [self.sectionItems enumerateObjectsUsingBlock:^(BBTableViewSection * _Nonnull section, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSUInteger foundIdx = [section.items indexOfObjectPassingTest:^BOOL(id<CellModelProtocol>  _Nonnull cellModel, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            BOOL res = NO;
+            if (cm == cellModel) {
+                *stop = YES;
+                res = YES;
+            }
+            return res;
+        }];
+        section.sectionOfTable = idx;
+        if (section.items && foundIdx != NSNotFound) {
+            if (idxPathOfSec) {
+                *idxPathOfSec = [NSIndexPath indexPathForRow:foundIdx inSection:idx];
+            }
+            *stop = YES;
+            sec = section;
+        }
+    }];
+    return sec;
+}
+
 
 - (BBTableViewSection *)getSectionWithIndex:(NSInteger)index {
     if (index >= self.sectionItems.count) {
@@ -165,6 +192,7 @@
     __block NSIndexPath *indexPath = nil;
     [self.sectionItems enumerateObjectsUsingBlock:^(BBTableViewSection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSInteger foundIdx = NSNotFound;
+        obj.sectionOfTable = idx;
         if (obj.items) {
             foundIdx = [obj.items indexOfObject:cellModel];
         }
@@ -784,6 +812,76 @@
         
     } completionBlock:completion];
 }
+
+- (void)reloadCellModels:(NSArray<id<CellModelProtocol>> *)cellModels withRowAnimation:(UITableViewRowAnimation)animation {
+    [self reloadCellModels:cellModels atSection:nil withRowAnimation:animation];
+}
+
+- (void)reloadCellModels:(NSArray<id<CellModelProtocol>> *)cellModels {
+    [self reloadCellModels:cellModels atSection:nil];
+}
+
+- (void)reloadCellModels:(NSArray<id<CellModelProtocol>> *)cellModels
+               atSection:(BBTableViewSection *)section {
+    [self reloadCellModels:cellModels atSection:section withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)reloadCellModels:(NSArray<id<CellModelProtocol>> *)cellModels
+               atSection:(BBTableViewSection *)section
+        withRowAnimation:(UITableViewRowAnimation)animation {
+    
+    [self reloadCellModels:cellModels atSection:section withRowAnimation:animation reloadElements:nil];
+}
+
+- (void)reloadCellModels:(NSArray<id<CellModelProtocol>> *)cellModels
+               atSection:(BBTableViewSection *)section
+        withRowAnimation:(UITableViewRowAnimation)animation
+          reloadElements:(NSArray<id<CellModelProtocol>> *__autoreleasing *)reloadElements {
+    if (cellModels.count == 0) {
+        return;
+    }
+    
+    NSMutableArray *indexPaths = @[].mutableCopy;
+    NSMutableArray *okElements = @[].mutableCopy;
+    if (section) {
+        if (section.items.count == 0) {
+            return;
+        }
+        BOOL flag = [self updateSectionOfTableViewSection:section];
+        if (flag == NO) {
+            return;
+        }
+        
+        for (id<CellModelProtocol> cm in cellModels) {
+            NSInteger row = [section.items indexOfObject:cm];
+            if (row == NSNotFound) {
+                continue;
+            }
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section.sectionOfTable];
+            cm.indexPathOfTable = indexPath;
+            [indexPaths addObject:indexPath];
+            [okElements addObject:cm];
+        }
+    }
+    else {
+        for (id<CellModelProtocol> cm in cellModels) {
+            NSIndexPath *indexPath = nil;
+            [self getSectionWithCellModel:cm indexPathOfSection:&indexPath];
+            if (indexPath) {
+                [indexPaths addObject:indexPath];
+                [okElements addObject:cm];
+            }
+        }
+    }
+    if (indexPaths.count) {
+        [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    if (reloadElements) {
+        *reloadElements = okElements;
+    }
+}
+
+
 
 - (void)reloadTableWithBlock:(void (^)(void))updateTableBlock completionBlock:(void (^)(BBTableDataProcessor *))completion {
     [CATransaction begin];
